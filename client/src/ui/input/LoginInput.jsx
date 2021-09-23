@@ -24,23 +24,36 @@ const StyledInput = tw.input`
     focus:outline-none 
     focus:rang
     `
-
-const HandleOnChange = () => {
-    console.log ('handle on change')
-}
-
-const LoginInput = ({ primary, type }) => {
+const LoginInput = ({ primary,
+                        type,
+                        showPassword,
+                        toggleShowPassword,
+                        nickNamePreview,
+                        updateNickNamePreview,
+                        passwordPreview,
+                        updatePasswordPreview
+}) => {
 
     const typeConfig = getTypeConfig(type)
 
     return  <StyledDisplay $primary={primary}>
         <StyledLiner $primary={primary}>
-            <StyledInput $primary={primary} placeholder={typeConfig.placeholder} type={typeConfig.type} />
+            <StyledInput $primary={primary}
+                         placeholder={typeConfig.placeholder}
+                         type={typeConfig.type}
+                         value={nickNamePreview}
+                         onChange={(e) => {updateNickNamePreview(e.target.value)}}
+            />
         </StyledLiner>
 
         <StyledLiner $primary={primary}>
-            <StyledInput $primary={primary} placeholder="Password" type="password" />
-            <ToggleEyeInput primary={!primary} checked={false} onChange={HandleOnChange} />
+            <StyledInput $primary={primary}
+                         placeholder="Password"
+                         type={showPassword ? "text" : "password"}
+                         value={passwordPreview}
+                         onChange={(e) => {updatePasswordPreview(e.target.value)}}
+            />
+            <ToggleEyeInput primary={!primary} checked={showPassword} onClick={toggleShowPassword} />
         </StyledLiner>
     </StyledDisplay>
 }
@@ -78,9 +91,16 @@ export const LoginType = {
 LoginInput.propTypes = {
     primary:PropTypes.bool,
     type:PropTypes.oneOf(Object.keys(LoginType)),
+    showPassword:PropTypes.bool,
+    toggleShowPassword:PropTypes.func,
+    nickNamePreview:PropTypes.string,
+    updateNickNamePreview:PropTypes.func,
+    passwordPreview:PropTypes.string,
+    updatePasswordPreview:PropTypes.func
 };
 
 LoginInput.defaultProps = {
     primary:true,
-    type:LoginType.Tel
+    type:LoginType.Tel,
+    showPassword:false,
 };

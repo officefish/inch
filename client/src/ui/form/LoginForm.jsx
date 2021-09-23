@@ -4,7 +4,7 @@ import ToggleInput from "../../ui/input/ToggleInput";
 import tw from "tailwind-styled-components"
 import {DivFlxJstBtw} from "../display/flex";
 import PropTypes from "prop-types";
-import {DivFlxFllScrn} from "../../components/styled/display/display";
+import {DivFlxFllScn} from "./../display/flex";
 import NavLink from "../navlink/NavLink";
 import {FontWeight, TextSize} from "../enums/enums";
 
@@ -54,63 +54,84 @@ const StyledSignupMsg = tw.p`
     text-center 
     mt-3 
     `
-const StyledSignupLink = tw.a`
-    text-md 
-    font-semibold
-    `
-
-const HandleNeedRemember = () => {
-    console.log ('handle need remember')
-}
-
-const LoginForm = ({primary, loginMsg, signatureMsg, forgetMsg, signupMsg, signupSigMsg, children}) => {
-    return <DivFlxFllScrn className='h-full'>
+const LoginForm = ({
+                        primary,
+                        locale,
+                        children,
+                        nickNamePreview,
+                        passwordPreview,
+                        needRemember,
+                        showPassword,
+                        updateNickNamePreview,
+                        updatePasswordPreview,
+                        toggleNeedRemember,
+                        toggleShowPassword
+                    }) => {
+    return <DivFlxFllScn className='h-full'>
         <StyledDisplay $primary={primary}>
         <StyledHeaderLiner>
             <StyledHeader $primary={primary}>
                 {children}
             </StyledHeader>
             <StyledSignature $primary={primary}>
-                {signatureMsg}
+                {locale.signatureMsg}
             </StyledSignature>
         </StyledHeaderLiner>
-        <LoginInput primary={primary} />
+        <LoginInput primary={primary}
+                    showPassword={showPassword}
+                    toggleShowPassword={toggleShowPassword}
+                    nickNamePreview={nickNamePreview}
+                    updateNickNamePreview={updateNickNamePreview}
+                    passwordPreview={passwordPreview}
+                    updatePasswordPreview={updatePasswordPreview}
+        />
         <AdditionalLiner>
-            <ToggleInput primary={primary} onChange={HandleNeedRemember} />
+            <ToggleInput primary={primary}
+                         checked={needRemember}
+                         onClick={ () => {toggleNeedRemember(needRemember)} }
+            />
             <ForgetLiner $primary={primary}>
                 <NavLink primary={primary} to={'/'} textSize={TextSize.EXTRA_SMALL}>
-                    {forgetMsg}
+                    {locale.forgetMsg}
                 </NavLink>
             </ForgetLiner>
         </AdditionalLiner>
         <BtnLiner>
-            <Button primary={primary} label={loginMsg} />
-            <StyledSignupMsg $primary={primary}>{signupSigMsg}
+            <Button primary={primary} label={locale.loginMsg} />
+            <StyledSignupMsg $primary={primary}>{locale.signupSigMsg}
                 <NavLink to={'/'} primary={primary} fontWeight={FontWeight.SEMI_BOLD}>
-                    {signupMsg}
+                    {locale.signupMsg}
                 </NavLink>
             </StyledSignupMsg>
         </BtnLiner>
         </StyledDisplay>
-    </DivFlxFllScrn>
+    </DivFlxFllScn>
 }
 
 export default LoginForm
 
 LoginForm.propTypes = {
     primary:PropTypes.bool,
-    signatureMsg:PropTypes.string,
-    forgetMsg:PropTypes.string,
-    loginMsg:PropTypes.string,
-    signupMsg:PropTypes.string,
-    signupSigMsg:PropTypes.string
+    locale:PropTypes.object,
+    nickNamePreview: PropTypes.string.isRequired,
+    passwordPreview: PropTypes.string.isRequired,
+    needRemember: PropTypes.bool.isRequired,
+    showPassword: PropTypes.bool.isRequired,
+    updateNickNamePreview: PropTypes.func.isRequired,
+    updatePasswordPreview: PropTypes.func.isRequired,
+    toggleNeedRemember:PropTypes.func.isRequired,
+    toggleShowPassword:PropTypes.func.isRequired
 };
 
-LoginForm.defaultProps = {
-    primary:true,
+const defaultLocale = {
     signatureMsg:"Sign in to continue",
     forgetMsg:"forget password?",
     signupSigMsg:"don't have an account? ",
     signupMsg:"Sign up",
     loginMsg:"Login"
+}
+
+LoginForm.defaultProps = {
+    primary:true,
+    locale:defaultLocale
 };

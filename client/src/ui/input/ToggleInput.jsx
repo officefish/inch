@@ -43,12 +43,12 @@ const StyledToggleLabel = tw.label`
     text-xs
     `
 
-const ToggleInput = ({primary, checked, onChange, children}) => {
+const ToggleInput = ({primary, checked, onClick, children}) => {
     return <DivFlx >
         <StyledDisplay>
             <StyledCheckbox
                 type="checkbox" name="toggle" id="toggle"
-                onChange={onChange}
+                onClick={onClick}
                 $primary={primary}
                 checked={checked} />
             <StyledCheckboxLabel
@@ -68,7 +68,7 @@ ToggleInput.propTypes = {
     primary:PropTypes.bool,
     checked:PropTypes.bool,
     children:PropTypes.string,
-    onChange:PropTypes.func
+    onClick:PropTypes.func
 };
 
 ToggleInput.defaultProps = {

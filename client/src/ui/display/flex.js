@@ -6,3 +6,10 @@ export const DivFlx = tw.div`
 export const DivFlxJstBtw = tw(DivFlx)`
     justify-between
     `
+
+export const DivFlxFllScn = tw(DivFlx)`
+    w-full
+    h-full
+    items-center
+    justify-center
+    `
