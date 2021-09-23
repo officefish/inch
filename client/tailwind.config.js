@@ -1,0 +1,37 @@
+module.exports = {
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    colors: {
+      primary: "var(--theme-primary)",
+      "primary-light": "var(--theme-primary-light)",
+      "primary-dark": "var(--theme-primary-dark)",
+      secondary: "var(--theme-secondary)",
+      "secondary-light": "var(--theme-secondary-light)",
+      "secondary-dark": "var(--theme-secondary-dark)",
+      negative: 'var(--theme-negative)',
+      "negative-light": 'var(--theme-negative-light)',
+      "negative-dark": 'var(--theme-negative-dark)',
+      positive: 'var(--theme-positive)',
+      "positive-light": 'var(--theme-positive-light)',
+      "positive-dark": 'var(--theme-positive-dark)',
+      'primary-background': 'var(--theme-background-primary)',
+      'primary-background-light': 'var(--theme-background-primary-light)',
+      'primary-background-dark': 'var(--theme-background-primary-dark)',
+      'secondary-background': 'var(--theme-background-secondary)',
+      'secondary-background-light': 'var(--theme-background-secondary-light)',
+      'secondary-background-dark': 'var(--theme-background-secondary-dark)',
+      'primary-text': 'var(--theme-text-primary)',
+      'primary-text-light': 'var(--theme-text-primary-light)',
+      'primary-text-dark': 'var(--theme-text-primary-dark)',
+      'secondary-text': 'var(--theme-text-secondary)',
+      'secondary-text-light': 'var(--theme-text-secondary-light)',
+      'secondary-text-dark': 'var(--theme-text-secondary-dark)',
+    },
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+}

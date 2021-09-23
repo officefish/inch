@@ -1,0 +1,26 @@
+:root {
+    --theme-primary: #1BE7FF;
+    --theme-primary-light: #47EDFF;
+    --theme-primary-dark: #00CAE0;
+    --theme-secondary: #006E7A;
+    --theme-secondary-light: #00A2B8;
+    --theme-secondary-dark: #004852;
+    --theme-negative: #FF5714;
+    --theme-negative-light: #FF8A5C;
+    --theme-negative-dark: #E04000;
+    --theme-positive: #6EEB83;
+    --theme-positive-light: #A5F3B2;
+    --theme-positive-dark: #3AE456;
+    --theme-background-primary: #FFF5D6;
+    --theme-background-primary-light: #FFFCF2;
+    --theme-background-primary-dark: #FFEBAD;
+    --theme-background-secondary: #CCC5B9;
+    --theme-background-secondary-light: #DDD8D0;
+    --theme-background-secondary-dark: #B2A795;
+    --theme-text-primary: #242331;
+    --theme-text-primary-light: #3D3B54;
+    --theme-text-primary-dark: #111118;
+    --theme-text-secondary: #4B452F;
+    --theme-text-secondary-light: #716847;
+    --theme-text-secondary-dark: #322E1F;
+}
