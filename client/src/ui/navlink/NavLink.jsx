@@ -24,7 +24,6 @@ NavLink.propTypes = {
     fontWeight:PropTypes.oneOf(Object.values(FontWeight)),
     textSize:PropTypes.oneOf(Object.values(TextSize)),
     to:PropTypes.string,
-    children:PropTypes.element
 };
 
 NavLink.defaultProps = {

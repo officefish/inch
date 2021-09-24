@@ -101,6 +101,6 @@ LoginInput.propTypes = {
 
 LoginInput.defaultProps = {
     primary:true,
-    type:LoginType.Tel,
+    type:LoginType.Nickname,
     showPassword:false,
 };

@@ -9,16 +9,14 @@ export default {
     },
 };
 
-const Template = (args) => <NavLink {...args} />;
+const Template = args => <NavLink {...args}>Hello world</NavLink> ;
 
 export const Primary = Template.bind({});
 Primary.args = {
-    primary: true,
-    children: 'Hello world'
+    primary: true
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-    primary: false,
-    children: 'Hello world'
+    primary: false
 };

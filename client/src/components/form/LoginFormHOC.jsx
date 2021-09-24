@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import LoginForm from "../../ui/form/LoginForm";
+import LoginForm from "../../ui/form/login/LoginForm";
 import {
     SetNickNamePreviewAC,
     SetPasswordPreviewAC,
@@ -11,7 +11,15 @@ import {
 class LoginFormHOC extends React.Component {
 
     render () {
-        return <LoginForm {...this.props}>
+
+        const signupPath = '/'
+        const forgetPassPath = '/'
+
+        return <LoginForm 
+            {...this.props} 
+            signupPath={signupPath}
+            forgetPassPath={forgetPassPath}
+            >
             Welcome <br/>
             Back
         </LoginForm>

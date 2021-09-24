@@ -50,7 +50,9 @@ const ToggleInput = ({primary, checked, onClick, children}) => {
                 type="checkbox" name="toggle" id="toggle"
                 onClick={onClick}
                 $primary={primary}
-                checked={checked} />
+                checked={checked}
+                readOnly
+                />
             <StyledCheckboxLabel
                 $primary={primary}
                 htmlFor="toggle" />
