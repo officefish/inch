@@ -1,5 +1,9 @@
 const express = require('express')
+const path = require('path');
+
 const app = express()
+
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json())
 
@@ -24,9 +28,15 @@ let notes = [
   }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
+app
+  .use(express.static(path.join(__dirname + '../../../client/build')))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+app.get('/', (req, res) => {
+  const buildPath = path.join(__dirname + '../../../client/build/index.html')
+  console.log(buildPath)
+  res.sendFile(buildPath);
+});
 
 app.get('/api/notes', (request, response) => {
   response.json(notes)
@@ -79,6 +89,3 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
