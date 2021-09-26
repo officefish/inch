@@ -2,7 +2,7 @@ import {SET_MESSAGE, CLEAR_MESSAGE} from '../../actions/types'
 
 const initialState = {}
 
-const messageReducer = (state = initialState, action) => {
+const message = (state = initialState, action) => {
     const {type, payload} = action
 
     switch (type) {
@@ -16,4 +16,4 @@ const messageReducer = (state = initialState, action) => {
             return state
     }
 }
-export default messageReducer
+export default message

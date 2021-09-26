@@ -1,5 +1,5 @@
 import {
-    REGITER_SUCCESS,
+    REGISTER_SUCCESS,
     REGISTER_FAIL,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
@@ -14,7 +14,7 @@ export const register = (userService, email, password) => dispatch => {
         .then(
             (response) => {
                 dispatch({
-                    type: REGITER_SUCCESS
+                    type: REGISTER_SUCCESS
                 })
 
                 dispatch({

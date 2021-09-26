@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import authReducer from './auth'
-import messageReducer from './message'
+import auth from './auth'
+import message from './message'
 
 export default combineReducers({
-    authReducer,
-    messageReducer
+    auth,
+    message
 })

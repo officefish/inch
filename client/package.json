@@ -76,6 +76,7 @@
     "dotenv": "^10.0.0",
     "postcss": "^7.0.32",
     "postcss-cli": "^7.1.0",
+    "redux-devtools-extension": "^2.13.9",
     "storybook-react-router": "^1.0.8",
     "styled-components": "^5.3.1",
     "tailwind-styled-components": "^2.0.3",

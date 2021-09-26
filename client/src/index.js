@@ -8,14 +8,25 @@ import {Provider} from "react-redux";
 import store from "./redux/store"
 import {BrowserRouter} from "react-router-dom";
 
-ReactDOM.render(
-    <BrowserRouter>
-        <Provider store={store}>
-            <App />
-        </Provider>
-     </BrowserRouter>,
-  document.getElementById('root')
-);
+import BezkoderAuthApp from "./components/bezcoder/app"
+
+// ReactDOM.render(
+//     <BrowserRouter>
+//         <Provider store={store}>
+//             <App />
+//         </Provider>
+//      </BrowserRouter>,
+//   document.getElementById('root')
+// );
+
+ ReactDOM.render(
+     <BrowserRouter>
+         <Provider store={store}>
+             <BezkoderAuthApp />
+         </Provider>
+      </BrowserRouter>,
+   document.getElementById('root')
+ );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

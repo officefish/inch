@@ -12,7 +12,7 @@ const initialState = user
     ? {isLoggedIn: true, user}
     : {isLoggedIn: false, user: null}
     
-const authReducer = (state = initialState, action) => {
+const auth = (state = initialState, action) => {
     const {type, payload} = action
 
     switch(type) {
@@ -42,4 +42,4 @@ const authReducer = (state = initialState, action) => {
             return state
     }
 }   
-export default authReducer 
+export default auth 
