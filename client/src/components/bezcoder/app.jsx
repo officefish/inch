@@ -72,7 +72,7 @@ class BezkoderAuthApp extends Component {
             <TwoSidesHeader
               primary={true}
               maxWidth={MaxWidth.W_SCREEN_MD}
-              fixedHeight={Height.H_16}
+              fixedHeight={Height.H_12}
               leftNav={leftNav}
               rightNav={rightNav}
             />

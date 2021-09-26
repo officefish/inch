@@ -1,40 +1,61 @@
-import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types'
+import { NavNoWrp } from '../../../ui/list'
+import NavLink from '../../../ui/navlink/NavLink'
+import { ListType, FontWeight, TextSize, SpaceBetween } from '../../../ui/enums';
 
 const RightNav = ({...props}) => {
     const { currentUser } = props;
 
     if (currentUser) return( 
-        <nav className='flex flex-no-wrap'>
-          <li className="nav-item">
-            <Link to={"/profile"} className="nav-link">
-              {currentUser.username}
-            </Link>
+      <NavNoWrp 
+        $listType={ListType.NONE}
+        $spaceBetween={SpaceBetween.X_6}
+        >
+          <li>
+            <NavLink to={"/profile"} 
+              primary={true} 
+              fontWeight={FontWeight.BASE}
+              textSize={TextSize.BASE}
+              >{currentUser.username}
+            </NavLink>
           </li>
-          <li className="nav-item">
-            <a href="/login" className="nav-link" onClick={this.logOut}>
+          <li>
+            <NavLink to={"/login"} 
+              primary={true} 
+              fontWeight={FontWeight.BASE}
+              textSize={TextSize.BASE}
+              >LogOut
+            </NavLink>
+            {/* <a href="/login" className="nav-link" onClick={this.logOut}>
               LogOut
-            </a>
+            </a> */}
           </li>
-        </nav>
-        )
+      </NavNoWrp>
+    )
     else return (
-        <nav className='flex flex-no-wrap'>
-          <li className="nav-item">
-            <Link to={"/login"} className="nav-link">
-              Login
-            </Link>
+      <NavNoWrp 
+      $listType={ListType.NONE}
+      $spaceBetween={SpaceBetween.X_6}
+      >
+          <li>
+            <NavLink to={"/login"} 
+              primary={true} 
+              fontWeight={FontWeight.BASE}
+              textSize={TextSize.BASE}
+              >Login
+            </NavLink>
           </li>
-
-          <li className="nav-item">
-            <Link to={"/register"} className="nav-link">
-              Sign Up
-            </Link>
+          <li>
+            <NavLink to={"/register"} 
+              primary={true} 
+              fontWeight={FontWeight.BASE}
+              textSize={TextSize.BASE}
+              >Sign Up
+            </NavLink>
           </li>
-        </nav>)
-    
-
-}
+        </NavNoWrp>
+      )
+    }
 export default RightNav
 
 RightNav.propTypes = {

@@ -1,6 +1,10 @@
 import tw from "tailwind-styled-components";
+import { DIV, NAV } from "../node";
 
-export const DivFlx = tw.div`
+export const DivFlx = tw(DIV)`
+    flex
+    `
+export const NavFlx = tw(NAV)`
     flex
     `
 

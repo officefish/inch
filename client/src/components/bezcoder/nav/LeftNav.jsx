@@ -1,38 +1,58 @@
 
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
+import { NavNoWrp } from '../../../ui/list';
+import NavLink from '../../../ui/navlink/NavLink'
+import { ListType, FontWeight, TextSize, SpaceBetween } from '../../../ui/enums';
 
 const LeftNav = ({...props}) => {
     const { currentUser, showModeratorBoard, showAdminBoard } = props;
-    return <nav>
-            <Link to={"/"} className="navbar-brand">
-            bezKoder
-        </Link>
+    
+    return (
+        <NavNoWrp 
+        $listType={ListType.NONE}
+        $spaceBetween={SpaceBetween.X_6}
+        >
+            <NavLink to={"/"}
+            primary={true} 
+            fontWeight={FontWeight.SEMI_BOLD}
+            textSize={TextSize.BASE}
+            >bezKoder
+            </NavLink>
 
         {showModeratorBoard && (
-            <li className="nav-item">
-            <Link to={"/mod"} className="nav-link">
-                Moderator Board
-            </Link>
+            <li>
+                <NavLink to={"/mod"}
+                primary={true}  
+                fontWeight={FontWeight.BASE}
+                textSize={TextSize.BASE}
+                >Moderator Board
+                </NavLink>
             </li>
         )}
 
         {showAdminBoard && (
-            <li className="nav-item">
-            <Link to={"/admin"} className="nav-link">
-                Admin Board
-            </Link>
+            <li>
+                <NavLink to={"/admin"} 
+                primary={true} 
+                fontWeight={FontWeight.BASE}
+                textSize={TextSize.BASE}
+                >Admin Board
+                </NavLink>
             </li>
         )}
 
         {currentUser && (
-            <li className="nav-item">
-            <Link to={"/user"} className="nav-link">
-                User
-            </Link>
+            <li>
+                <NavLink to={"/user"}
+                primary={true}  
+                fontWeight={FontWeight.BASE}
+                textSize={TextSize.BASE}
+                >User
+                </NavLink>
             </li>
         )}
-    </nav>
+        </NavNoWrp>
+    ) 
 }
 export default LeftNav
 
