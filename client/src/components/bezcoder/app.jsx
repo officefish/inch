@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 
 import Login from "./login.component";
 import Register from "./register.component";
@@ -22,6 +22,10 @@ import { MaxWidth, Height } from '../../ui/enums'
 
 import LeftNav from './nav/LeftNav'
 import RightNav from "./nav/RightNav";
+
+import { applyTheme } from "../../themes/utils";
+import baseTheme from "../../themes/base";
+import darkTheme from "../../themes/dark";
 
 class BezkoderAuthApp extends Component {
     constructor(props) {
@@ -49,6 +53,8 @@ class BezkoderAuthApp extends Component {
             showAdminBoard: user.roles.includes("ROLE_ADMIN"),
           });
         }
+
+        applyTheme(baseTheme)
     }
 
     logOut() {
@@ -70,7 +76,7 @@ class BezkoderAuthApp extends Component {
           <Router history={history}>
             
             <TwoSidesHeader
-              primary={true}
+              primary={false}
               maxWidth={MaxWidth.W_SCREEN_MD}
               fixedHeight={Height.H_12}
               leftNav={leftNav}
