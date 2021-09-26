@@ -25,7 +25,6 @@ const App = () => {
 
     return <LoginFormHOC />
 
-
 }
 export default App;
 

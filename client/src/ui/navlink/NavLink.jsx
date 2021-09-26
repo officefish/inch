@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import tw from 'tailwind-styled-components'
 import PropTypes from "prop-types";
 
-import {FontWeight, TextSize} from "../enums/enums";
+import {FontWeight, TextSize} from "../enums";
 
 export const StyledNavLink = tw(Link)`
     ${(p) => (p.$primary ? "text-primary-dark" : "text-secondary-dark")}

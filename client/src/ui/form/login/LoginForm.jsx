@@ -6,7 +6,7 @@ import {DivFlxJstBtw} from "../../display/flex"
 import PropTypes from "prop-types";
 import {DivFlxFllScn} from "../../display/flex";
 import NavLink from "../../navlink/NavLink";
-import {FontWeight, TextSize} from "../../enums/enums";
+import {FontWeight, TextSize} from "../../enums";
 import LoginFormHeader from "./LoginFormHeader";
 
 const StyledDisplay = tw.div`
