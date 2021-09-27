@@ -14,7 +14,8 @@ import {required} from '../../validators'
 import Card from "../../ui/card/Card";
 import {
     Padding,
-    MaxWidth
+    MaxWidth,
+    Width
 } from '../../ui/enums'
 
 class Login extends Component {
@@ -87,6 +88,7 @@ class Login extends Component {
                     <Card
                     padding={Padding.P_4}
                     maxWidth={MaxWidth.W_XL}
+                    width={Width.W_96}
                     >
                         <img
                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
