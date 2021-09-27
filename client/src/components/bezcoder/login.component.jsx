@@ -83,10 +83,10 @@ class Login extends Component {
             return <Redirect to="/profile" />;
         }
 
-        return <div className="flex items-center justify-center pt-12 h-full">
+        return <div className="flex items-start justify-center pt-12 h-screen">
                     <Card
                     padding={Padding.P_4}
-                    maxWidth={MaxWidth.W_MD}
+                    maxWidth={MaxWidth.W_XL}
                     >
                         <img
                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

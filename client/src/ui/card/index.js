@@ -4,4 +4,6 @@ export const StyledCard = tw.div`
     ${(p) => (p.$padding)}
     ${(p) => (p.$margin)}
     ${(p) => (p.$maxWidth)}
+    border
+    w-90
     `

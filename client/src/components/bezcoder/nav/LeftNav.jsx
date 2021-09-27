@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { NavNoWrp } from '../../../ui/list';
 import NavLink from '../../../ui/navlink/NavLink'
-import { ListType, FontWeight, TextSize, SpaceBetween } from '../../../ui/enums';
+import { ListType, FontWeight, TextSize, SpaceBetween, ThemeColor } from '../../../ui/enums';
 
 const LeftNav = ({...props}) => {
     const { currentUser, showModeratorBoard, showAdminBoard } = props;
@@ -13,7 +13,7 @@ const LeftNav = ({...props}) => {
         $spaceBetween={SpaceBetween.X_6}
         >
             <NavLink to={"/"}
-            primary={true} 
+            textColor={ThemeColor.PRM_TXT}
             fontWeight={FontWeight.SEMI_BOLD}
             textSize={TextSize.BASE}
             >bezKoder
@@ -22,7 +22,7 @@ const LeftNav = ({...props}) => {
         {showModeratorBoard && (
             <li>
                 <NavLink to={"/mod"}
-                primary={true}  
+                textColor={ThemeColor.PRM_TXT}
                 fontWeight={FontWeight.BASE}
                 textSize={TextSize.BASE}
                 >Moderator Board
@@ -33,7 +33,7 @@ const LeftNav = ({...props}) => {
         {showAdminBoard && (
             <li>
                 <NavLink to={"/admin"} 
-                primary={true} 
+                textColor={ThemeColor.PRM_TXT}
                 fontWeight={FontWeight.BASE}
                 textSize={TextSize.BASE}
                 >Admin Board
@@ -44,7 +44,7 @@ const LeftNav = ({...props}) => {
         {currentUser && (
             <li>
                 <NavLink to={"/user"}
-                primary={true}  
+                textColor={ThemeColor.PRM_TXT}
                 fontWeight={FontWeight.BASE}
                 textSize={TextSize.BASE}
                 >User
