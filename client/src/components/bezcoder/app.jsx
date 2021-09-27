@@ -18,7 +18,11 @@ import { clearMessage } from "../../actions/message";
 import { history } from '../../helpers/history';
 
 import TwoSidesHeader from "../../ui/header/TwoSidesHeader";
-import { MaxWidth, Height } from '../../ui/enums'
+import { 
+  MaxWidth, 
+  Height,
+  ThemeColor
+} from '../../ui/enums'
 
 import LeftNav from './nav/LeftNav'
 import RightNav from "./nav/RightNav";
@@ -77,7 +81,8 @@ class BezkoderAuthApp extends Component {
           <Router history={history}>
             
             <TwoSidesHeader
-              primary={false}
+              bgColor={ThemeColor.SCD_BG}
+              borderColor={ThemeColor.SCD_BG_D}
               maxWidth={MaxWidth.W_SCREEN_MD}
               fixedHeight={Height.H_12}
               leftNav={leftNav}
