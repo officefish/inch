@@ -7,3 +7,4 @@ export {Padding} from "./padding.enum"
 export {SpaceBetween} from "./space-between.enum"
 export {TextSize} from "./text-size.enum"
 export {ThemeColor} from "./theme-color.enum" 
+export {Width} from './width.enum'
