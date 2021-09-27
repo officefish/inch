@@ -83,7 +83,7 @@ class Login extends Component {
             return <Redirect to="/profile" />;
         }
 
-        return <div className="flex items-center justify-center pt-12">
+        return <div className="flex items-center justify-center pt-12 h-full">
                     <Card
                     padding={Padding.P_4}
                     maxWidth={MaxWidth.W_MD}
