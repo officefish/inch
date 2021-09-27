@@ -7,3 +7,7 @@ export const DIV = tw.div`
 export const NAV = tw.nav`
     ${(p) => (p.$spaceBetween)}
     `
+
+export const DivBg = tw.div`
+    ${(p) => (p.$primary ? "bg-primary-background" : "bg-secondary-background")}
+    `

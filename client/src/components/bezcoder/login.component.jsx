@@ -11,6 +11,12 @@ import { login } from '../../actions/auth'
 
 import {required} from '../../validators'
 
+import Card from "../../ui/card/Card";
+import {
+    Padding,
+    MaxWidth
+} from '../../ui/enums'
+
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -77,8 +83,11 @@ class Login extends Component {
             return <Redirect to="/profile" />;
         }
 
-        return <div className="col-md-12">
-                    <div className="card card-container">
+        return <div className="flex items-center justify-center pt-12">
+                    <Card
+                    padding={Padding.P_4}
+                    maxWidth={MaxWidth.W_MD}
+                    >
                         <img
                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                         alt="profile-img"
@@ -132,7 +141,7 @@ class Login extends Component {
                                 ref={this.checkBtn}
                             />
                         </Form>
-                    </div>
+                    </Card>
                 </div>
     }
 }

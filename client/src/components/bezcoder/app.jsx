@@ -26,6 +26,7 @@ import RightNav from "./nav/RightNav";
 import { applyTheme } from "../../themes/utils";
 import baseTheme from "../../themes/base";
 import darkTheme from "../../themes/dark";
+import Container from "./container.component";
 
 class BezkoderAuthApp extends Component {
     constructor(props) {
@@ -83,20 +84,22 @@ class BezkoderAuthApp extends Component {
               rightNav={rightNav}
             />
                   
-            <div className="container mt-3">
-              <Switch>
-                <Route exact path={["/", "/home"]} component={Home} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/profile" component={Profile} />
-                <Route path="/user" component={UserBoard} />
-                <Route path="/mod" component={ModeratorBoard} />
-                <Route path="/admin" component={AdminBoard} />
-              </Switch>
-            </div>
+            <Container 
+              primary={true}
+              maxWidth={MaxWidth.W_SCREEN_MD}>
+                <Switch>
+                  <Route exact path={["/", "/home"]} component={Home} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/profile" component={Profile} />
+                  <Route path="/user" component={UserBoard} />
+                  <Route path="/mod" component={ModeratorBoard} />
+                  <Route path="/admin" component={AdminBoard} />
+                </Switch>
+            </Container>
             
           </Router>
-        );
+        )
     }
 }
 
