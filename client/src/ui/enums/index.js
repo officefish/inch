@@ -8,3 +8,13 @@ export {SpaceBetween} from "./space-between.enum"
 export {TextSize} from "./text-size.enum"
 export {ThemeColor} from "./theme-color.enum" 
 export {Width} from './width.enum'
+export {
+    JustifyContent,
+    JustifyItems,
+    JustifySelf
+} from './justify.enum'
+export {
+    AlignContent,
+    AlignItems,
+    AlignSelf
+} from './align.enum'
