@@ -22,6 +22,12 @@ import {
 import { withContentLiner } from "./common/with-content-liner.decorator";
 
 import UserRoundedImg from "../../ui/img/UserRoundedImg";
+import {
+    MaterialInput,
+    MaterialInputBase,
+    MaterialFieldSet,
+    MaterialLegend
+} from "../../ui/input/MaterialInput";
 
 @withContentLiner
 class Login extends Component {
@@ -102,28 +108,37 @@ class Login extends Component {
             <Form 
             onSubmit={this.handleLogin}
             ref={this.form}>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <Input
-                    type="text"
-                    className="form-control"
-                    name="username"
+                <MaterialInputBase>
+                               
+                    <MaterialInput
+                    type="text" 
+                    name="firstName" 
+                    required=""
+                    aria-invalid="false" 
+                    autocomplete="fname" 
+                    autofocus="" 
+                    id="firstName" 
                     value={this.state.username}
                     onChange={this.onChangeUsername}
                     validations={[required]}
                     />
-                </div>
-                <div className="form-group">
+                    <MaterialFieldSet area-hidden='true'>
+                        <MaterialLegend>
+                            <span>Fisrt name</span>
+                        </MaterialLegend>
+                    </MaterialFieldSet> 
+
+                </MaterialInputBase>
+                <MaterialInputBase>
                     <label htmlFor="password">Password</label>
-                    <Input
+                    <MaterialInput
                     type="password"
-                    className="form-control"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChangePassword}
                     validations={[required]}
                     />
-                </div>
+                </MaterialInputBase>
                 <div className="form-group">
                     <button
                     className="btn btn-primary btn-block"
