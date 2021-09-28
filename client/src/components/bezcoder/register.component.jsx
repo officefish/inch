@@ -14,6 +14,18 @@ import {
     vpassword 
 } from '../../validators'  
 
+import BezcoderCard from "../../ui/card/BezcoderCard";
+import {
+    Width,
+    Height,
+    ThemeColor
+} from '../../ui/enums'
+
+import UserRoundedImg from "../../ui/img/UserRoundedImg";
+
+import { withContentLiner } from "./common/with-content-liner.decorator";
+
+@withContentLiner
 class Register extends Component {
     constructor(props) {
         super(props)
@@ -59,7 +71,7 @@ class Register extends Component {
           successful: false,
         })
     
-        this.form.validateAll()
+        this.form.current.validateAll()
 
         const { dispatch } = this.props;
         const { username, email, password } = this.state
@@ -84,13 +96,12 @@ class Register extends Component {
         const { message } = this.props;
     
         return (
-          <div className="col-md-12">
-            <div className="card card-container">
-              <img
-                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                alt="profile-img"
-                className="profile-img-card"
-              />
+          <BezcoderCard
+            bgColor={ThemeColor.SCD_BG_L}>
+              <UserRoundedImg 
+              width={Width.W_24}
+              height={Height.H_24}
+              alt="profile-img"/>
     
               <Form
                 onSubmit={this.handleRegister}
@@ -152,8 +163,7 @@ class Register extends Component {
                   ref={this.checkBtn}
                 />
               </Form>
-            </div>
-          </div>
+          </BezcoderCard>
         );
       }
 }

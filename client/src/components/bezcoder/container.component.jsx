@@ -1,16 +1,23 @@
 import PropTypes from 'prop-types'
-import { MaxWidth } from '../../ui/enums'
+import { 
+    MaxWidth,
+    ThemeColor
+} from '../../ui/enums'
 
 import { DivBg } from '../../ui/node'
 import {DivCtrFxdW} from '../../ui/display/container'
 
 const Container = ({children, ...props}) => {
     const {
-        primary,
+        bgColor,
+        hoverBgColor,
         maxWidth
     } = props
     
-    return <DivBg $primary={primary}>
+    return <DivBg
+        $bgColor={bgColor}
+        $hoverBgColor={hoverBgColor}
+    >
     <DivCtrFxdW $maxWidth={maxWidth}>
         {children}
     </DivCtrFxdW>
@@ -19,6 +26,6 @@ const Container = ({children, ...props}) => {
 export default Container
 
 Container.propTypes = {
-    primary:PropTypes.bool,
+    bgColor:PropTypes.oneOf(Object.values(ThemeColor)),
     maxWidth:PropTypes.oneOf(Object.values(MaxWidth)),
 }

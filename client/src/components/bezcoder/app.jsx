@@ -90,7 +90,7 @@ class BezkoderAuthApp extends Component {
             />
                   
             <Container 
-              primary={true}
+              bgColor={ThemeColor.PRM_BG_L}
               maxWidth={MaxWidth.W_SCREEN_MD}>
                 <Switch>
                   <Route exact path={["/", "/home"]} component={Home} />

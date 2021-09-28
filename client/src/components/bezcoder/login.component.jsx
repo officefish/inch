@@ -11,14 +11,17 @@ import { login } from '../../actions/auth'
 
 import {required} from '../../validators'
 
-import Card from "../../ui/card/Card";
+import BezcoderCard from "../../ui/card/BezcoderCard";
+
 import {
-    Padding,
-    MaxWidth,
-    Width
+    Width,
+    Height,
+    ThemeColor
 } from '../../ui/enums'
 
 import { withContentLiner } from "./common/with-content-liner.decorator";
+
+import UserRoundedImg from "../../ui/img/UserRoundedImg";
 
 @withContentLiner
 class Login extends Component {
@@ -58,7 +61,7 @@ class Login extends Component {
             loading:true
         })
 
-        this.form.validateAll()
+        this.form.current.validateAll()
 
         const { dispatch, history } = this.props;
 
@@ -88,16 +91,14 @@ class Login extends Component {
         }
 
         return (
-        <Card
-        padding={Padding.P_4}
-        maxWidth={MaxWidth.W_XL}
-        width={Width.W_96}
+        <BezcoderCard
+        bgColor={ThemeColor.SCD_BG_L}
         >
-            <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-            />
+            <UserRoundedImg 
+            width={Width.W_24}
+            height={Height.H_24}
+            alt="profile-img"/>
+
             <Form 
             onSubmit={this.handleLogin}
             ref={this.form}>
@@ -146,7 +147,7 @@ class Login extends Component {
                     ref={this.checkBtn}
                 />
             </Form>
-        </Card>
+        </BezcoderCard>
     )}
 }
 

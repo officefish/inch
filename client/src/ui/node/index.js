@@ -9,5 +9,6 @@ export const NAV = tw.nav`
     `
 
 export const DivBg = tw.div`
-    ${(p) => (p.$primary ? "bg-primary-background" : "bg-secondary-background")}
+    ${(p) => ("bg-" + p.$bgColor)}
+    ${(p) => ("hover:bg-" + p.$hoverBgColor)}
     `
