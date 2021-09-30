@@ -57,6 +57,7 @@ const LoginForm = (props) => {
         register,
         errors,
         loading,
+        message,
         handleSubmit
     } = props
 
@@ -164,6 +165,15 @@ const LoginForm = (props) => {
                     label={locale.needRemember}
                 />
                 </Grid>
+                {message && (
+                    <Grid item>
+                        <Typography 
+                        variant="inherit" 
+                        color="secondary">
+                            {message}
+                        </Typography>
+                    </Grid>    
+                )}
                 <Grid item>
                     <Button
                         fullWidth
@@ -204,6 +214,7 @@ export default LoginForm
 
 LoginForm.propTypes = {
     loading:PropTypes.bool,
+    message:PropTypes.string,
     errors:PropTypes.object,
     register:PropTypes.func,
     handleSubmit:PropTypes.func

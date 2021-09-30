@@ -1,44 +1,35 @@
+import PropTypes from 'prop-types';
 import LoginForm from '../../ui/inch/form/LoginForm'
+
+import { Redirect } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+
+import { loginValidation } from '../../validators';
 
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
 
 import { useState } from 'react'
 
-const locale = {
-    emailRequired:"Email is required",
-    emailInvalid:"Email is invalid",
-    passRequired:"Password is required",
-    passMin:"Password must be at least 6 characters",
-    passMax:"Password must not exceed 40 characters"
-}
-
 const Login = props => {
 
-    const { dispatch, history } = props;
+    const { 
+        dispatch, 
+        history,
+        isLoggedIn,
+        message 
+    } = props;
 
     const [loading, setLoading] = useState(false)
     
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required(locale.emailRequired)
-            .email(locale.emailInvalid),
-        password: Yup.string()
-            .required(locale.passRequired)
-            .min(6, locale.passMin)
-            .max(40, locale.passMax)
-    })
-
     const {
         register,
         handleSubmit,
         formState: { errors }
       } = useForm({
-        resolver: yupResolver(validationSchema)
+        resolver: yupResolver(loginValidation)
       });
 
     const onSubmit = data => {
@@ -54,9 +45,12 @@ const Login = props => {
             });
     }
 
-    return <LoginForm
+    return isLoggedIn
+    ? <Redirect to="/profile" />
+    : <LoginForm
         register={register}
         errors={errors}
+        message={message}
         handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
     />
@@ -72,3 +66,10 @@ const mapStateToProps = state => {
   }
 
 export default connect(mapStateToProps)(Login)
+
+LoginForm.propTypes = {
+    isLoggedIn:PropTypes.bool.isRequired,
+    message:PropTypes.string,
+    dispatch:PropTypes.func.isRequired,
+    history:PropTypes.array.isRequired
+}

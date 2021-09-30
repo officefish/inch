@@ -1,41 +1,20 @@
-import { isEmail } from "validator";
+//import { isEmail } from "validator";
+import * as Yup from 'yup';
 
-export const required = value => {
-    if(!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-              This field is required!
-            </div>
-          );
-    }
+const locale = {
+  emailRequired:"Email is required",
+  emailInvalid:"Email is invalid",
+  passRequired:"Password is required",
+  passMin:"Password must be at least 6 characters",
+  passMax:"Password must not exceed 40 characters"
 }
 
-export const email = value => {
-    if (!isEmail(value)) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This is not a valid email.
-        </div>
-      );
-    }
-};
-
-export const vusername = value => {
-    if (value.length < 3 || value.length > 20) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The username must be between 3 and 20 characters.
-        </div>
-      );
-    }
-  };
-  
-export const vpassword = value => {
-    if (value.length < 6 || value.length > 40) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The password must be between 6 and 40 characters.
-        </div>
-      );
-    }
-};
+export const loginValidation = Yup.object().shape({
+  email: Yup.string()
+      .required(locale.emailRequired)
+      .email(locale.emailInvalid),
+  password: Yup.string()
+      .required(locale.passRequired)
+      .min(6, locale.passMin)
+      .max(40, locale.passMax)
+})
