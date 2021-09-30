@@ -1,8 +1,13 @@
 import LoginForm from '../../ui/inch/form/LoginForm'
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+
+import { connect } from "react-redux";
+import { login } from "../../actions/auth";
+
+import { useState } from 'react'
 
 const locale = {
     emailRequired:"Email is required",
@@ -13,6 +18,10 @@ const locale = {
 }
 
 const Login = props => {
+
+    const { dispatch, history } = props;
+
+    const [loading, setLoading] = useState(false)
     
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -26,7 +35,6 @@ const Login = props => {
 
     const {
         register,
-        control,
         handleSubmit,
         formState: { errors }
       } = useForm({
@@ -34,15 +42,33 @@ const Login = props => {
       });
 
     const onSubmit = data => {
-        debugger
-        console.log(JSON.stringify(data, null, 2))
+        setLoading(true)
+        const {email, password} = data
+        dispatch(login(email, password))
+            .then(() => {
+                history.push("/profile");
+                window.location.reload();
+            })
+            .catch(() => {
+                setLoading(false)
+            });
     }
 
     return <LoginForm
         register={register}
-        control={control}
         errors={errors}
         handleSubmit={handleSubmit(onSubmit)}
+        loading={loading}
     />
 }
-export default Login
+
+const mapStateToProps = state => {
+    const { isLoggedIn } = state.auth;
+    const { message } = state.message;
+    return {
+      isLoggedIn,
+      message
+    };
+  }
+
+export default connect(mapStateToProps)(Login)

@@ -55,8 +55,8 @@ const LoginForm = (props) => {
 
     const {
         register,
-        control,
         errors,
+        loading,
         handleSubmit
     } = props
 
@@ -170,6 +170,7 @@ const LoginForm = (props) => {
                         color="primary"
                         variant="contained"
                         onClick={handleSubmit}
+                        disabled={loading}
                         className={classes.button}>
                         {locale.signin}
                     </Button>
@@ -202,8 +203,8 @@ const LoginForm = (props) => {
 export default LoginForm
 
 LoginForm.propTypes = {
+    loading:PropTypes.bool,
     errors:PropTypes.object,
-    control:PropTypes.object,
     register:PropTypes.func,
     handleSubmit:PropTypes.func
 }
