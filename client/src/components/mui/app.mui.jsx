@@ -1,47 +1,91 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Box from '@material-ui/core/Box';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-    container: {
-      display:'flex',
-      justifyContent:'space-between'
+import Home from './home.component'
+import Login from './login.component'
+
+import { connect } from "react-redux";
+import { Router, Switch, Route } from "react-router-dom";
+import TwoSidesBar from '../../ui/inch/bar/TwoSidesBar'
+import LeftToolbar from './nav/LeftToolbar';
+import RightToolbar from './nav/RightToolbar';
+
+import { history } from '../../helpers/history';
+import { logout } from "../../actions/auth";
+import { clearMessage } from "../../actions/message";
+
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import { createTheme, ThemeProvider } from '@material-ui/core';
+const theme = createTheme();
+
+const App = props => {
+
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false)
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+
+    history.listen((location) => {
+      props.dispatch(clearMessage()); // clear message when changing location
+    });
+    
+    const { user } = props;
+
+    if (user) {
+      setCurrentUser(user)
+      const moderatorRole = user.roles.includes("ROLE_MODERATOR")
+      setShowModeratorBoard(moderatorRole)
+      const adminRole = user.roles.includes("ROLE_ADMIN")
+      setShowAdminBoard(adminRole)
     }
-}))
 
-const App = () => {
-  const classes = useStyles();
+  });
 
-  return <AppBar
-      position="static"
-      >
-        <div className={classes.container}>
-        <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div">
-              Inch
-            </Typography>
-        </Toolbar>
+  const handleLogout = () => {
+    props.dispatch(logout());
+  }
 
-        <Toolbar>
-        <Button color="inherit">Login</Button>
-        </Toolbar>
-        </div>
-            
-    </AppBar>
+  const leftToolbar = <LeftToolbar
+  currentUser={currentUser}
+  showAdminBoard={showAdminBoard}
+  showModeratorBoard={showModeratorBoard}/>   
+
+  const rightToolbar = <RightToolbar currentUser={currentUser} />
+
+  return <ThemeProvider theme={theme}>
+      <Router history={history}>
+        <TwoSidesBar
+          leftToolbar={leftToolbar}
+          rightToolbar={rightToolbar}
+        />
+
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Switch>
+            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path="/login" component={Login} />
+          </Switch>
+        </Container> 
+    </Router>
+  </ThemeProvider>
   
 }
-export default App
+
+const mapStateToProps = state => {
+  const { user } = state.auth;
+  return {
+    user,
+  };
+}
+
+export default connect(mapStateToProps)(App)
+
+// <Route exact path="/register" component={Register} />
+// <Route exact path="/profile" component={Profile} />
+// <Route path="/user" component={UserBoard} />
+// <Route path="/mod" component={ModeratorBoard} />
+// <Route path="/admin" component={AdminBoard} />

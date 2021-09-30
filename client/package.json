@@ -13,6 +13,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.16.2",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -21,7 +22,9 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "validator": "^13.6.0",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9",
+    "@hookform/resolvers": "2.6.0"
   },
   "scripts": {
     "build:style": "tailwind build src/styles/index.css -o src/styles/tailwind.css",
@@ -65,6 +68,7 @@
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-proposal-do-expressions": "^7.14.5",
+    "@babel/runtime": "^7.14.6",
     "@etchteam/storybook-addon-css-variables-theme": "^1.0.2",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
