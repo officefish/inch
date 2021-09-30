@@ -53,6 +53,13 @@ const locale = {
 
 const LoginForm = (props) => {
 
+    const {
+        register,
+        control,
+        errors,
+        handleSubmit
+    } = props
+
     const [values, setValues] = useState({
         password: '',
         showPassword: false,
@@ -82,8 +89,6 @@ const LoginForm = (props) => {
         });
     };
 
-    const {handleSubmit} = props
-
     const classes = useStyles();
 
     return (
@@ -103,14 +108,11 @@ const LoginForm = (props) => {
                 {locale.signin}
             </Typography>
             <Box 
-            component="form" 
-            onSubmit={handleSubmit} 
             className={classes.form}>
             <Grid container direction={"column"} spacing={2}>
                 <Grid item>
                     <TextField
                         margin="normal"
-                        required
                         fullWidth
                         id="email"
                         label={locale.email}
@@ -118,15 +120,18 @@ const LoginForm = (props) => {
                         variant="outlined"
                         autoComplete="email"
                         autoFocus
+                        {...register('email')}
+                        error={errors.email ? true : false}
                     />
+                    <Typography variant="inherit" color="textSecondary">
+                        {errors.email?.message}
+                    </Typography>
                 </Grid>
                 <Grid item>
                     <FormControl fullWidth variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                         type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
-                        onChange={handleChange('password')}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -142,8 +147,13 @@ const LoginForm = (props) => {
                         </InputAdornment>
                         }
                         label={locale.password}
+                        {...register('password')}
+                        error={errors.password ? true : false}
                         />
                     </FormControl>
+                    <Typography variant="inherit" color="textSecondary">
+                        {errors.password?.message}
+                    </Typography>
                 </Grid>
                 <Grid item>
                     <FormControlLabel
@@ -156,10 +166,10 @@ const LoginForm = (props) => {
                 </Grid>
                 <Grid item>
                     <Button
-                        type="submit"
                         fullWidth
                         color="primary"
                         variant="contained"
+                        onClick={handleSubmit}
                         className={classes.button}>
                         {locale.signin}
                     </Button>
@@ -190,3 +200,10 @@ const LoginForm = (props) => {
     )
 }
 export default LoginForm
+
+LoginForm.propTypes = {
+    errors:PropTypes.object,
+    control:PropTypes.object,
+    register:PropTypes.func,
+    handleSubmit:PropTypes.func
+}
