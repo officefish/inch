@@ -1,203 +1,37 @@
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import { useState } from 'react'
 
-import { makeStyles } from '@material-ui/core/styles';
+import Password from './field/Password.field'
+import Email from './field/Email.field' 
+import NeedRemember from './checkbox/NeedRemember.checkbox'
+import Error from './typography/Error.typography'
+import Submit from '../button/Submit.button'
+import LoginTools from '../bar/LoginTools.bar'
+import Signin from '../avatar/Signin.avatar'
 
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Grid from "@material-ui/core/Grid";
-
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import NavLink from "../link/NavLink"
-
-import FormGrid from '../grid/FormGrid';
-
-const useStyles = makeStyles(theme => ({
-    container: {
-        marginTop: 50,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: 1, 
-        bgcolor: 'secondary.main'
-    },
-    form: {
-        marginTop: 1,
-        width: '20rem',
-    },
-    button: {
-        marginTop: 3,
-        marginBottom: 2
-    }
-}))
+import Form from '../grid/Form.grid'
+import Column from '../container/Column.container'
 
 const locale = {
-    signin:"Sign in",
-    needRemember:"Remember me",
-    email:"Email address",
-    password:"Password"
+    signin:"Sign in"
 }
 
-const LoginForm = (props) => {
+const LoginForm = props => {
 
-    const {
-        register,
-        errors,
-        loading,
-        message,
-        handleSubmit
-    } = props
-
-    const [values, setValues] = useState({
-        showPassword: false,
-        needRemember:true        
-    });
-
-    const handleClickShowPassword = () => {
-        setValues({
-          ...values,
-          showPassword: !values.showPassword,
-        });
-    };
+    const {message} = props
     
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const handleNeedRemember = () => {
-        setValues({
-          ...values,
-          needRemember: !values.needRemember,
-        });
-    };
-
-    const classes = useStyles();
-
-    return (
-        <Box 
-        className={classes.container}    
-        >
-            <Avatar 
-            size='small'
-            className={classes.avatar}>
-                <LockOutlinedIcon
-                size='small'
-                />
-            </Avatar>
-            <Typography 
-            component="h6" 
-            variant="h6">
-                {locale.signin}
-            </Typography>
-            <Box 
-            className={classes.form}>
-            <FormGrid 
-            direction={"column"} 
-            spacing={2}>
-                <>
-                    <TextField
-                        margin="normal"
-                        fullWidth
-                        id="email"
-                        label={locale.email}
-                        name="email"
-                        variant="outlined"
-                        autoComplete="email"
-                        autoFocus
-                        {...register('email')}
-                        error={errors.email ? true : false}
-                    />
-                    <Typography variant="inherit" color="textSecondary">
-                        {errors.email?.message}
-                    </Typography>
-                </>
-                <>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                        type={values.showPassword ? 'text' : 'password'}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {values.showPassword 
-                                ? <Visibility /> 
-                                : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label={locale.password}
-                        {...register('password')}
-                        error={errors.password ? true : false}
-                        />
-                    </FormControl>
-                    <Typography variant="inherit" color="textSecondary">
-                        {errors.password?.message}
-                    </Typography>
-                </>
-                    <FormControlLabel
-                    control={<Checkbox 
-                        checked={values.needRemember}
-                        onChange={handleNeedRemember}
-                        color="primary" />}
-                    label={locale.needRemember}
-                />
-                {message && (
-                    <Typography 
-                    variant="inherit" 
-                    color="secondary">
-                        {message}
-                    </Typography>
-                )}
-                <Button
-                    fullWidth
-                    color="primary"
-                    variant="contained"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                    className={classes.button}>
+    return <Column>
+            <Signin />
+            <Form>
+                <Email {...props} />
+                <Password {...props} />
+                <NeedRemember {...props} />
+                <Error message={message} />
+                <Submit {...props}>
                     {locale.signin}
-                </Button>
-                <Grid container>
-                    <Grid item xs>
-                        <NavLink 
-                        size="small" 
-                        color='default'
-                        to="/" >
-                            Forgot password?
-                        </NavLink>
-                    </Grid>
-                    <Grid item xs>
-                        <NavLink 
-                        size="small" 
-                        color='default'
-                        to="/signup" >
-                            {"No account? Sign Up"}
-                        </NavLink>
-                    </Grid>
-                </Grid>
-            </FormGrid>
-        </Box>
-    </Box>
-    )
+                </Submit>
+                <LoginTools />
+            </Form>
+        </Column>
 }
 export default LoginForm
 
@@ -206,5 +40,9 @@ LoginForm.propTypes = {
     message:PropTypes.string,
     errors:PropTypes.object,
     register:PropTypes.func,
-    handleSubmit:PropTypes.func
+    handleSubmit:PropTypes.func,
+    needRemember:PropTypes.bool,
+    showPassword:PropTypes.bool,
+    toggleShowPassword:PropTypes.func,
+    toggleNeedRemember:PropTypes.func
 }

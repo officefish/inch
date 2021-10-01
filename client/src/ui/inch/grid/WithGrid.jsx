@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid";
 
-const FormGrid = ({children, ...props}) => {
+const WithGrid = ({children, ...props}) => {
     
     const {
         direction,
@@ -22,9 +22,9 @@ const FormGrid = ({children, ...props}) => {
         }
     </Grid>
 }
-export default FormGrid
+export default WithGrid
 
-FormGrid.propTypes = {
+WithGrid.propTypes = {
     direction:PropTypes.string,
     spacing:PropTypes.number
 }

@@ -22,7 +22,32 @@ const Login = props => {
         message 
     } = props;
 
-    const [loading, setLoading] = useState(false)
+    const [values, setValues] = useState({
+        showPassword: false,
+        needRemember:true,
+        loading:false        
+    });
+
+    const setLoading = payload => {
+        setValues({
+            ...values,
+            loading: payload
+          });
+    }
+
+    const toggleNeedRemember = () => {
+        setValues({
+            ...values,
+            needRemember: !values.needRemember,
+          });
+    }
+
+    const toggleShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+          });
+    }
     
     const {
         register,
@@ -52,7 +77,11 @@ const Login = props => {
         errors={errors}
         message={message}
         handleSubmit={handleSubmit(onSubmit)}
-        loading={loading}
+        loading={values.loading}
+        needRemember={values.needRemember}
+        showPassword={values.showPassword}
+        toggleShowPassword={toggleShowPassword}
+        toggleNeedRemember={toggleNeedRemember}
     />
 }
 
