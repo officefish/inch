@@ -1,13 +1,13 @@
 import React from "react"
 import Typography from '@material-ui/core/Typography';
 
-const Error = ({children}) => {
+const Success = ({children}) => {
     return children
         ? <Typography 
             variant="inherit" 
-            color="secondary">
+            color="primary">
                 {children}
             </Typography>
         : <React.Fragment /> 
 }
-export default Error
+export default Success

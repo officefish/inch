@@ -11,11 +11,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const locale = {
-    signin:"Sign in"
-}
-
-const Signin = () => {
+const Signin = ({children}) => {
     const classes = useStyles();
     return <React.Fragment>
         <Avatar 
@@ -28,7 +24,7 @@ const Signin = () => {
         <Typography 
         component="h6" 
         variant="h6">
-            {locale.signin}
+            {children}
         </Typography>
     </React.Fragment>
 }

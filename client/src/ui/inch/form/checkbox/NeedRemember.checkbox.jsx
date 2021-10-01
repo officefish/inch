@@ -12,7 +12,7 @@ const NeedRemember = props => {
         toggleNeedRemember
     } = props
 
-    return <FormControlLabel
+    return <FormControlLabel margin="none"
         control={<Checkbox 
             checked={needRemember}
             onChange={toggleNeedRemember}

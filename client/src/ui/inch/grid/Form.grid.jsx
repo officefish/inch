@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     form: {
-        marginTop: 1,
+        marginTop: 20,
         width: '20rem',
     }
 }))

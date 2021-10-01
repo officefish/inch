@@ -10,10 +10,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Typography from '@material-ui/core/Typography';
 
 const locale = {
-    password:"Password"
+    confirm:"Confirm Password"
 }
 
-const Password = props => {
+const ConfirmPassword = props => {
 
     const {
         toggleShowPassword,
@@ -28,7 +28,7 @@ const Password = props => {
 
     return <React.Fragment>
             <FormControl margin="none" fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">{locale.password}</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">{locale.confirm}</InputLabel>
                 <OutlinedInput
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
@@ -45,14 +45,14 @@ const Password = props => {
                     </IconButton>
                 </InputAdornment>
                 }
-                label={locale.password}
-                {...register('password')}
-                error={errors.password ? true : false}
+                label={locale.confirm}
+                {...register('confirmPassword')}
+                error={errors.confirmPassword ? true : false}
                 />
         </FormControl>
         <Typography variant="inherit" color="textSecondary">
-            {errors.password?.message}
+            {errors.confirmPassword?.message}
         </Typography>   
     </React.Fragment>
 }
-export default Password
+export default ConfirmPassword

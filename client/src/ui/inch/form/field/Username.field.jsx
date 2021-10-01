@@ -5,10 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 const locale = {
-    email:"Email address"
+    username:"Username"
 }
 
-const Email = props => {
+const Username = props => {
 
     const {
         errors,
@@ -20,29 +20,29 @@ const Email = props => {
             <TextField
             margin="none"
             fullWidth
-            id="email"
-            label={locale.email}
-            name="email"
+            id="username"
+            label={locale.username}
+            name="usename"
             variant="outlined"
-            autoComplete="email"
+            autoComplete="username"
             autoFocus={autoFocus}
-            {...register('email')}
-            error={errors.email ? true : false}
+            {...register('username')}
+            error={errors.username ? true : false}
         />
         <Typography variant="inherit" color="textSecondary">
-            {errors.email?.message}
+            {errors.username?.message}
         </Typography>
     </React.Fragment>
 }
-export default Email
+export default Username
 
-Email.propTypes = {
+Username.propTypes = {
     errors:PropTypes.object,
     register:PropTypes.func,
     autoFocus:PropTypes.bool
 }
 
-Email.defaultProps = {
+Username.defaultProps = {
     autoFocus:false
 }
     

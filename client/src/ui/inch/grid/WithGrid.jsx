@@ -14,7 +14,7 @@ const WithGrid = ({children, ...props}) => {
     spacing={spacing}
     >
         {children
-            .map((child, index) => <Grid
+            .map((child, index) => <Grid 
                 item 
                 key={index}>
                     {child

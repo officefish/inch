@@ -20,9 +20,9 @@ const LoginForm = props => {
     const {message} = props
     
     return <Column>
-            <Signin />
+            <Signin>{locale.signin}</Signin>
             <Form>
-                <Email {...props} />
+                <Email autoFocus={true} {...props} />
                 <Password {...props} />
                 <NeedRemember {...props} />
                 <Error message={message} />

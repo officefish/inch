@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Home from './home.component'
 import Login from './login.component'
+import Register from './register.component'
 
 import { connect } from "react-redux";
 import { Router, Switch, Route } from "react-router-dom";
@@ -68,6 +69,7 @@ const App = props => {
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
           </Switch>
         </Container> 
     </Router>
@@ -84,7 +86,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(App)
 
-// <Route exact path="/register" component={Register} />
 // <Route exact path="/profile" component={Profile} />
 // <Route path="/user" component={UserBoard} />
 // <Route path="/mod" component={ModeratorBoard} />
