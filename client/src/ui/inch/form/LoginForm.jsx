@@ -22,6 +22,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NavLink from "../link/NavLink"
 
+import FormGrid from '../grid/FormGrid';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -62,15 +63,9 @@ const LoginForm = (props) => {
     } = props
 
     const [values, setValues] = useState({
-        password: '',
         showPassword: false,
-        needRemember:true
-        
+        needRemember:true        
     });
-
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
 
     const handleClickShowPassword = () => {
         setValues({
@@ -110,8 +105,10 @@ const LoginForm = (props) => {
             </Typography>
             <Box 
             className={classes.form}>
-            <Grid container direction={"column"} spacing={2}>
-                <Grid item>
+            <FormGrid 
+            direction={"column"} 
+            spacing={2}>
+                <>
                     <TextField
                         margin="normal"
                         fullWidth
@@ -127,8 +124,8 @@ const LoginForm = (props) => {
                     <Typography variant="inherit" color="textSecondary">
                         {errors.email?.message}
                     </Typography>
-                </Grid>
-                <Grid item>
+                </>
+                <>
                     <FormControl fullWidth variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
@@ -155,8 +152,7 @@ const LoginForm = (props) => {
                     <Typography variant="inherit" color="textSecondary">
                         {errors.password?.message}
                     </Typography>
-                </Grid>
-                <Grid item>
+                </>
                     <FormControlLabel
                     control={<Checkbox 
                         checked={values.needRemember}
@@ -164,48 +160,41 @@ const LoginForm = (props) => {
                         color="primary" />}
                     label={locale.needRemember}
                 />
-                </Grid>
                 {message && (
-                    <Grid item>
-                        <Typography 
-                        variant="inherit" 
-                        color="secondary">
-                            {message}
-                        </Typography>
-                    </Grid>    
+                    <Typography 
+                    variant="inherit" 
+                    color="secondary">
+                        {message}
+                    </Typography>
                 )}
-                <Grid item>
-                    <Button
-                        fullWidth
-                        color="primary"
-                        variant="contained"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className={classes.button}>
-                        {locale.signin}
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Grid container>
-                        <Grid item xs>
-                            <NavLink 
-                            size="small" 
-                            color='default'
-                            to="/" >
-                                Forgot password?
-                            </NavLink>
-                        </Grid>
-                        <Grid item xs>
-                            <NavLink 
-                            size="small" 
-                            color='default'
-                            to="/signup" >
-                                {"No account? Sign Up"}
-                            </NavLink>
-                        </Grid>
+                <Button
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className={classes.button}>
+                    {locale.signin}
+                </Button>
+                <Grid container>
+                    <Grid item xs>
+                        <NavLink 
+                        size="small" 
+                        color='default'
+                        to="/" >
+                            Forgot password?
+                        </NavLink>
+                    </Grid>
+                    <Grid item xs>
+                        <NavLink 
+                        size="small" 
+                        color='default'
+                        to="/signup" >
+                            {"No account? Sign Up"}
+                        </NavLink>
                     </Grid>
                 </Grid>
-            </Grid>
+            </FormGrid>
         </Box>
     </Box>
     )
