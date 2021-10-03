@@ -1,12 +1,21 @@
 import axios from 'axios'
-import { API_URL } from './api-url'
-const AUTH_URL = API_URL + '/auth/'
 
 class AuthService {
 
+    constructor(host, port) {
+        this.api_url = 'http://' + host + ':' + port + '/api'
+        this.auth_url = this.api_url + '/auth'
+        this.signin_url = this.auth_url + '/signin'
+        this.signup_url = this.auth_url + '/signup'
+
+        this.login = this.login.bind(this)
+        this.register = this.register.bind(this)
+        this.logout = this.logout.bind(this)
+    }
+
     login(username, password) {
         return axios
-            .post(AUTH_URL + 'signin', {username, password})
+            .post(this.signin_url, {username, password})
             .then((response) => {
                 if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data))
@@ -22,7 +31,7 @@ class AuthService {
 
     register(username, email, password) {
         return axios
-            .post(AUTH_URL + 'signup', {
+            .post(this.signup_url, {
                 username,
                 email,
                 password
@@ -31,4 +40,4 @@ class AuthService {
     }
 }
 
-export default new AuthService()
+export default AuthService

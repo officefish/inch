@@ -13,13 +13,17 @@ import { login } from "../../actions/auth";
 
 import { useState } from 'react'
 
+import AuthService from '../../services/auth.service'
+
 const Login = props => {
 
     const { 
         dispatch, 
         history,
         isLoggedIn,
-        message 
+        message,
+        host,
+        port 
     } = props;
 
     const [values, setValues] = useState({
@@ -60,7 +64,8 @@ const Login = props => {
     const onSubmit = data => {
         setLoading(true)
         const {email, password} = data
-        dispatch(login(email, password))
+        const service = new AuthService(host, port)
+        dispatch(login(service, email, password))
             .then(() => {
                 history.push("/profile");
                 window.location.reload();
@@ -86,11 +91,14 @@ const Login = props => {
 }
 
 const mapStateToProps = state => {
-    const { isLoggedIn } = state.auth;
-    const { message } = state.message;
+    const { isLoggedIn } = state.auth
+    const { message } = state.message
+    const { host, port } = state.connect
     return {
       isLoggedIn,
-      message
+      message,
+      host, 
+      port
     };
   }
 

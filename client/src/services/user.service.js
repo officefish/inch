@@ -3,35 +3,43 @@ import { API_URL } from './api-url'
 
 import authHeader from './auth-header'
 
-const TEST_URL = API_URL + '/test/'
-
 class UserService {
+
+    constructor(host, port) {
+        this.api_url = 'http://' + host + ':' + port + '/api'
+        this.test_url = this.api_url + '/test/'
+
+        this.getPublicContent = this.getPublicContent.bind(this)
+        this.getUserBoard = this.getUserBoard.bind(this)
+        this.getModeratorBoard = this.getModeratorBoard.bind(this)
+        this.getAdminBoard = this.getAdminBoard.bind(this)
+    }
     
     getPublicContent() {
         return axios
-            .get(TEST_URL + 'all')
+            .get(this.test_url + 'all')
     }
 
     getUserBoard() {
         return axios
-            .get(TEST_URL + 'user', {
+            .get(this.test_url + 'user', {
                 headers: authHeader()
             })
     }
 
     getModeratorBoard() {
         return axios
-            .get(TEST_URL + 'mode', {
+            .get(this.test_url + 'mode', {
                 headers: authHeader()    
             })
     }
 
     getAdminBoard() {
         return axios
-            .get(TEST_URL + 'admin', {
+            .get(this.test_url + 'admin', {
                 headers: authHeader()
             })
     }
 }
 
-export default new UserService()
+export default UserService

@@ -9,11 +9,15 @@ import { useState } from 'react'
 
 import { register as registerAction } from "../../actions/auth"
 
+import AuthService from '../../services/auth.service'
+
 const Register = ({...props}) => {
 
     const {
         dispatch,
         message,
+        host,
+        port
     } = props
 
     const [values, setValues] = useState({
@@ -46,8 +50,9 @@ const Register = ({...props}) => {
     const onSubmit = data => {
         setLoading(true)
         const {username, email, password} = data
+        const service = new AuthService(host, port)
         dispatch(
-            registerAction(username, email, password))
+            registerAction(service, username, email, password))
             .then(() => {
                 setLoading(false)
                 setSuccessful(true)
@@ -81,14 +86,19 @@ const Register = ({...props}) => {
 
 const mapStateToProps = state => {
     const { message } = state.message
+    const { host, port } = state.connect
     return {
       message,
+      host,
+      port
     }
   }
   
 export default connect(mapStateToProps)(Register)
 
 RegisterForm.propTypes = {
+    host:PropTypes.string,
+    port:PropTypes.number,
     message:PropTypes.string,
     dispatch:PropTypes.func,
 }

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import UserService from "../../services/user.service"
+import { connect } from "react-redux";
 
-const Home = () => {
+const Home = props => {
+
+    const { host, port } = props
     const [content, setContent] = useState("");
 
     useEffect(() => {
-        UserService.getPublicContent().then(
+        const service = new UserService(host, port)
+        service.getPublicContent().then(
             response => {
                 setContent(content)
             }, 
@@ -24,4 +28,13 @@ const Home = () => {
         </header>
     </div>
 }
-export default Home
+
+const mapStateToProps = state => {
+    const { host, port } = state.connect
+    return {
+      host, 
+      port
+    };
+  }
+
+export default connect(mapStateToProps)(Home)
