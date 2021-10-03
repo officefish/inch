@@ -90,5 +90,5 @@ export default connect(mapStateToProps)(Register)
 
 RegisterForm.propTypes = {
     message:PropTypes.string,
-    dispatch:PropTypes.func.isRequired,
+    dispatch:PropTypes.func,
 }

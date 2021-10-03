@@ -11,11 +11,18 @@ const locale = {
 }
 
 const LeftToolbar = props => {
-    const { currentUser, showModeratorBoard, showAdminBoard } = props;
+    const { 
+        currentUser, 
+        showModeratorBoard, 
+        showAdminBoard, 
+        handleDrawerOpen,
+        isSettingsOpen } = props
 
     return (
         <Toolbar>
-            <SettingsButton />
+            {!isSettingsOpen && (
+                <SettingsButton handleDrawerOpen={handleDrawerOpen} />
+            )}
             <NavLink size='large' to="/">{locale.team}</NavLink>
             
             {showModeratorBoard && (<NavLink 

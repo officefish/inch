@@ -1,32 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import './styles/tailwind.css';
-//import App from './App';
+
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 
 import store from "./redux/store"
-import {BrowserRouter} from "react-router-dom";
 
 import App from './components/mui/app.mui'
-//import BezkoderAuthApp from "./components/bezcoder/app"
+import { StyledEngineProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+const theme = createTheme();
 
-// ReactDOM.render(
-//     <BrowserRouter>
-//         <Provider store={store}>
-//             <App />
-//         </Provider>
-//      </BrowserRouter>,
-//   document.getElementById('root')
-// );
 
  ReactDOM.render(
-     <BrowserRouter>
-         <Provider store={store}>
-             {/* <BezkoderAuthApp /> */}
-             <App />
-         </Provider>
-      </BrowserRouter>,
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <Provider store={store}>
+                    <App />
+                </Provider>
+            </ThemeProvider>
+        </StyledEngineProvider>,
    document.getElementById('root')
  );
 

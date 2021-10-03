@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import { Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { connect } from "react-redux";
 
@@ -64,7 +64,7 @@ const App = props => {
   }
 
   return (
-    <Router history={history}>
+    <BrowserRouter history={history}>
         <FlexBox>
             <CssBaseline />
 
@@ -85,7 +85,7 @@ const App = props => {
         
             <Main 
             open={open} 
-            drawer_width={drawerWidth}>
+            drawerWidth={drawerWidth}>
                 <DrawerHeader />
                 <Switch>
                     <Route exact path={["/", "/home"]} component={Home} />
@@ -94,7 +94,7 @@ const App = props => {
                 </Switch>
             </Main>
         </FlexBox>
-    </Router>
+    </BrowserRouter>
   )
 }
 

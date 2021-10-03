@@ -97,8 +97,8 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(Login)
 
 LoginForm.propTypes = {
-    isLoggedIn:PropTypes.bool.isRequired,
+    isLoggedIn:PropTypes.bool,
     message:PropTypes.string,
-    dispatch:PropTypes.func.isRequired,
-    history:PropTypes.array.isRequired
+    dispatch:PropTypes.func,
+    history:PropTypes.array
 }
