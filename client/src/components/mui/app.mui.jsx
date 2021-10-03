@@ -26,7 +26,7 @@ import SettingsBar from './nav/Settings.bar'
 
 const App = props => {
 
-  const drawerWidth = 240
+  const DRAWER_WIDTH = 240
 
   const [open, setOpen] = React.useState(false)
   const [currentUser, setCurrentUser] = React.useState(null)
@@ -74,18 +74,18 @@ const App = props => {
             showAdminBoard={showAdminBoard}
             isSettingsOpen={open}
             handleDrawerOpen={handleDrawerOpen}
-            drawerWidth={drawerWidth}
+            drawerWidth={DRAWER_WIDTH}
             />
 
             <SettingsBar 
-            drawerWidth={drawerWidth} 
+            drawerWidth={DRAWER_WIDTH} 
             handleDrawerClose={handleDrawerClose}
             isOpen={open}
             />
         
             <Main 
             open={open} 
-            drawer_width={drawerWidth}>
+            drawer_width={DRAWER_WIDTH}>
                 <DrawerHeader />
                 <Switch>
                     <Route exact path={["/", "/home"]} component={Home} />
@@ -93,6 +93,7 @@ const App = props => {
                     <Route exact path="/register" component={Register} />
                 </Switch>
             </Main>
+
         </FlexBox>
     </Router>
   )

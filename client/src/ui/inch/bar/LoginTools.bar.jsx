@@ -1,6 +1,9 @@
 
 import WithGrid from '../grid/WithGrid'
-import NavLink from '../link/NavLink'
+import Link from '../link/NavLink'
+
+import { JustifyBetween } from '../../../components/mui/styled/'
+
 
 const locale = {
     forgotPass:"Forgot password?",
@@ -8,21 +11,19 @@ const locale = {
 }
 
 const LoginTools = () => {
-    return <WithGrid
-        spacing={2}
-        >
-        <NavLink 
-        size="small" 
-        color='default'
-        to="/" >
-            {locale.forgotPass}
-        </NavLink>
-        <NavLink 
-        size="small" 
-        color='default'
-        to="/signup" >
-            {locale.signup}
-        </NavLink>
-    </WithGrid>
+    return <JustifyBetween>
+            <Link 
+            size="small" 
+            color='default'
+            to="/" >
+                {locale.forgotPass}
+            </Link>
+            <Link 
+            size="small" 
+            color='default'
+            to="/signup" >
+                {locale.signup}
+            </Link>
+    </JustifyBetween>
 }
 export default LoginTools

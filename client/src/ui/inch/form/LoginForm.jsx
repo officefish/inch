@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import Password from './field/Password.field'
 import Email from './field/Email.field' 

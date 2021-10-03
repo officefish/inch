@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import React from "react"
 
 import Username from './field/Username.field'
@@ -12,7 +12,7 @@ import Success from "./typography/Success.typography"
 import Submit from '../button/Submit.button'
 import ConfirmPassword from './field/ConfirmPassword.field'
 
-import NavLink from '../link/NavLink'
+import Link from '../link/NavLink'
 
 const locale = {
     register:"Register",
@@ -31,12 +31,12 @@ const RegisterForm = ({...props}) => {
         ?   <Column>
                 {message && <React.Fragment>
                         <Success>{message}</Success>
-                        <NavLink 
+                        <Link 
                         size="small" 
                         color='default'
                         to="/login" >
                             {locale.tools.signin}
-                        </NavLink>
+                        </Link>
                 </React.Fragment>}
             </Column>
         :   <Column>
@@ -50,12 +50,12 @@ const RegisterForm = ({...props}) => {
                     <Submit {...props}>
                         {locale.register}
                     </Submit>
-                    <NavLink 
+                    <Link 
                     size="small" 
                     color='default'
                     to="/login" >
                         {locale.tools.signin}
-                    </NavLink>
+                    </Link>
                 </Form>
             </Column>
 }

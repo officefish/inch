@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import MuiDrawer from '@mui/material/Drawer'
 import Box from '@mui/material/Box'

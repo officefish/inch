@@ -1,5 +1,5 @@
 import Toolbar from '@material-ui/core/Toolbar'
-import NavLink from '../../../ui/inch/link/NavLink'
+import NavButton from '../../../ui/inch/button/NavButton'
 
 const locale = {
     login:"Login",
@@ -9,8 +9,8 @@ const locale = {
 const AnonimousToolbar = () => {
 
     return <Toolbar>
-        <NavLink to={'/login'}>{locale.login}</NavLink>
-        <NavLink to={"/register"}>{locale.register}</NavLink>
+        <NavButton color='white' to={'/login'}>{locale.login}</NavButton>
+        <NavButton color='white' to={"/register"}>{locale.register}</NavButton>
     </Toolbar>
 }
 export default AnonimousToolbar

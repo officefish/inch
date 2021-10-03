@@ -1,7 +1,7 @@
 import Toolbar from '@material-ui/core/Toolbar'
 import PropTypes from 'prop-types';
 import SettingsButton from '../../../ui/inch/button/SettingsButton';
-import NavLink from '../../../ui/inch/link/NavLink'
+import NavButton from '../../../ui/inch/button/NavButton'
 
 const locale = {
     team:"Inch",
@@ -23,20 +23,20 @@ const LeftToolbar = props => {
             {!isSettingsOpen && (
                 <SettingsButton handleDrawerOpen={handleDrawerOpen} />
             )}
-            <NavLink size='large' to="/">{locale.team}</NavLink>
+            <NavButton size='large' to="/">{locale.team}</NavButton>
             
-            {showModeratorBoard && (<NavLink 
+            {showModeratorBoard && (<NavButton 
                 to={"/mod"}>
                     {locale.modBoard}
-            </NavLink>)}
-            {showAdminBoard && (<NavLink 
+            </NavButton>)}
+            {showAdminBoard && (<NavButton 
                 to={"/admin"}>
                     {locale.adminBoard}
-            </NavLink>)}
-            {currentUser && (<NavLink 
+            </NavButton>)}
+            {currentUser && (<NavButton 
                 to={"/user"}>
                     {locale.userBoard}
-            </NavLink>)}
+            </NavButton>)}
         </Toolbar>
     )
 }
