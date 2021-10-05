@@ -1,99 +1,66 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
+const bodyParser = require("body-parser")
 
 const app = express()
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001
 
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200
 }
 app.use(cors(corsOptions))
 
-app.use(express.json())
+// parse requests of content-type - application/json
+app.use(bodyParser.json())
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2019-05-30T17:30:31.098Z",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2019-05-30T18:39:34.091Z",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2019-05-30T19:20:14.298Z",
-    important: true
-  }
-]
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app
-  .use(express.static(path.join(__dirname + '../../../client/build')))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const db = require('./app/models')
+const Role = db.role
 
-app.get('/', (req, res) => {
-  const buildPath = path.join(__dirname + '../../../client/build/index.html')
-  console.log(buildPath)
-  res.sendFile(buildPath);
-});
-
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
-})
-
-app.get('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const note = notes.find(note => {
-    return note.id === id
-  })
-  if (note) {
-    response.json(note)
-  } else {
-    response.status(404).end()
-  }
-})
-
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
-
-  response.status(204).end()
-})
-
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => n.id))
-    : 0
-  return maxId + 1
+const initial = () => {
+    Role.create({
+        id: 1,
+        name: "user"
+    })
+    Role.create({
+        id: 2,
+        name: "moderator"
+    })
+    Role.create({
+        id: 3,
+        name: "admin"
+    })
 }
 
-app.post('/api/notes', (request, response) => {
-  const body = request.body
+// db.sequelize.authenticate()
+//   .then(() => {
+//       console.log("Success!")
+//   })
+//   .catch((err) => {
+//       console.log(err)
+//   })
 
-  if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+db.sequelize.sync({ force: true })
+    .then(() => {
+        console.log('Drop and Resync Db')
+        initial()
     })
-  }
 
-  const note = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  }
+app
+    .use(express.static(path.join(__dirname + '../../../client/build')))
+    .listen(PORT, () => console.log(`Listening on ${PORT}`))
 
-  notes = notes.concat(note)
-
-  response.json(note)
+app.get('/', (req, res) => {
+    const buildPath = path.join(__dirname + '../../../client/build/index.html')
+    console.log(buildPath)
+    res.sendFile(buildPath);
 })
 
+require('./app/routes/auth.routes')(app)
+require('./app/routes/user.routes')(app)
