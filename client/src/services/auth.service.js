@@ -13,16 +13,16 @@ class AuthService {
         this.logout = this.logout.bind(this)
     }
 
-    login(username, password) {
+    login(username, password, needRemember) {
         return axios
-            .post(this.signin_url, {username, password})
+            .post(this.signin_url, { username, password, needRemember })
             .then((response) => {
                 if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data))
                 }
 
                 return response.data
-        })
+            })
     }
 
     logout() {
@@ -36,7 +36,7 @@ class AuthService {
                 email,
                 password
             })
-        
+
     }
 }
 

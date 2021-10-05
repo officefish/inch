@@ -8,7 +8,7 @@ import {
 } from './types'
 
 export const register = (service, username, email, password) => dispatch => {
-    
+
     return service.register(username, email, password)
         .then(
             (response) => {
@@ -24,12 +24,12 @@ export const register = (service, username, email, password) => dispatch => {
                 return Promise.resolve()
             },
             (error) => {
-                const message = (  
-                error.response 
-                && error.response.data
-                && error.response.data.message)
-                || error.message
-                || error.toString()
+                const message = (
+                        error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString()
 
                 dispatch({
                     type: REGISTER_FAIL
@@ -39,29 +39,29 @@ export const register = (service, username, email, password) => dispatch => {
                     type: SET_MESSAGE,
                     payload: message
                 })
-                
+
                 return Promise.reject()
             })
 }
 
-export const login = (service, username, password) => dispatch => {
-    return service.login(username, password)
+export const login = (service, username, password, needRemember) => dispatch => {
+    return service.login(username, password, needRemember)
         .then(
             (data) => {
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    payload: {user:data}
+                    payload: { user: data }
                 })
 
                 return Promise.resolve()
             },
             (error) => {
-                const message = (  
-                    error.response 
-                    && error.response.data
-                    && error.response.data.message)
-                    || error.message
-                    || error.toString()
+                const message = (
+                        error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString()
 
                 dispatch({
                     type: LOGIN_FAIL
@@ -73,7 +73,7 @@ export const login = (service, username, password) => dispatch => {
                 })
 
                 return Promise.reject()
-    
+
             })
 }
 
