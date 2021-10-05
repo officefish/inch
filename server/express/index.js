@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const bodyParser = require("body-parser")
+const route = express.Router()
 
 const app = express()
 
@@ -62,5 +63,8 @@ app.get('/', (req, res) => {
     res.sendFile(buildPath);
 })
 
-require('./app/routes/auth.routes')(app)
-require('./app/routes/user.routes')(app)
+/** Auth API */
+require('./app/routes/auth.routes')(route)
+
+/** User API */
+//require('./app/routes/user.routes')(app)

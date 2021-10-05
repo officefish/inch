@@ -6,7 +6,6 @@
   "proxy": "http://localhost:3001/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "author": "Sergey <inozemcev.smg@yandex.ru> (http://sergeyinozemcev.com/)",

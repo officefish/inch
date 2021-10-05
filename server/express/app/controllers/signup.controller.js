@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs')
 
-const {  validationResult  } = require('express-validator')
 
 
 const db = require('../models')
@@ -9,11 +8,6 @@ const Role = db.role
 const Op = db.sequelize.Op
 
 exports.signup = (req, res) => {
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
     // Save User to Database
     User.create({
