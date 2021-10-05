@@ -41,4 +41,24 @@ db.user.belongsToMany(db.role, {
 
 db.ROLES = ["user", "admin", "moderator"]
 
+db.initial = () => {
+  const Role = db.role
+  sequelize.sync({ force: true })
+    .then(() => {
+        Role.create({
+            id: 1,
+            name: "user"
+        })
+        Role.create({
+            id: 2,
+            name: "moderator"
+        })
+        Role.create({
+            id: 3,
+            name: "admin"
+        })
+        console.log('Drop and Resync Db')
+    })
+}
+
 module.exports = db
