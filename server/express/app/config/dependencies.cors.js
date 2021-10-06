@@ -8,7 +8,7 @@ const corsOptions = {
     optionSuccessStatus: 200
 }
 
-exports.cors = app => {
+module.exports = app => {
     app.use(_cors(corsOptions))
 }
 

@@ -1,7 +1,10 @@
 const path = require('path')
 
-module.exports = (app, port) => {
-    const PORT = process.env.PORT || port
-    app
-    .listen(PORT, () => console.log(`Listening on ${PORT}`))
+module.exports = (app, dirname) => {
+    
+    app.get('/', (req, res) => {
+        const buildPath = path.join(dirname + '../../../client/build/index.html')
+        console.log(buildPath)
+        res.sendFile(buildPath);
+    })
 }

@@ -2,10 +2,10 @@ const express = require('express')
 const app = express()
 
 /** Setup cors */
-require('./app/config/dependencies.config/cors')(app)
+require('./app/config/dependencies.cors')(app)
 
 /** Setup body-parser */
-require('./app/config/dependencies.config/bodyParser')(app)
+require('./app/config/dependencies.body-parser')(app)
 
 /** Initialize postgre sql db */
 require('./app/models').initial()
@@ -13,10 +13,10 @@ require('./app/models').initial()
 /** Setup app port */
 require('./app/config/port.config')(app, 3001)
 
-/** Setup bundle */
+/** Catch bundle */
 require('./app/config/client.bundle.config')(app, __dirname)
 
-/** Setup SPA */
+/** Routes SPA */
 require('./app/config/spa.config')(app,__dirname)
 
 /** Initialize router instance */
