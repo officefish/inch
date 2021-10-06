@@ -7,15 +7,10 @@ const { responseHeader } = require('../sanitizer/responseHeader')
 const { responseFirstError } = require('../sanitizer/responseFirstError')
 
 const {
-  usernameExist,
-  usernameValidMin,
-  usernameValidMax,
-  emailExist,
-  validEmail,
-  passwordExist,
-  passworValidMin,
-  passworValidMax
-} = require('./inline')
+  checkUsername,
+  checkEmail,
+  checkPassword
+} = require('./checks')
 
 const checkDublicateUsername = (req, res, next) => {
     User.findOne({
@@ -65,14 +60,9 @@ const checkRolesExisted = (req, res, next) => {
 
 exports.signupValidator = [
   responseHeader,
-  usernameExist,
-  usernameValidMin,
-  usernameValidMax,
-  emailExist,
-  validEmail,
-  passwordExist,
-  passworValidMin,
-  passworValidMax,
+  checkUsername,
+  checkEmail,
+  checkPassword,
   checkDublicateUsername,
   checkDublicateEmail,
   checkRolesExisted,
