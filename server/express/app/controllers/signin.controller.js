@@ -7,6 +7,16 @@ const { validator } = require('express-validator');
 const db = require('../models')
 const User = db.user
 
+const sign = (userId, needRemember) => {
+  const day = 86400 // 24 hours
+  const expiresIn = needRemember
+    ? day * 14 // 14 days session
+    : day / 8 // 3 hours session
+  return jwt.sign({ id: userId }, config.secret, {
+    expiresIn: expiresIn 
+  })
+}
+
 exports.signin = (req, res) => {
    
     User.findOne({
@@ -19,7 +29,7 @@ exports.signin = (req, res) => {
           return res.status(404).send({ message: "User Not found." });
         }
   
-        var passwordIsValid = bcrypt.compareSync(
+        const passwordIsValid = bcrypt.compareSync(
           req.body.password,
           user.password
         )
@@ -31,15 +41,16 @@ exports.signin = (req, res) => {
           })
         }
   
-        var token = jwt.sign({ id: user.id }, config.secret, {
-          expiresIn: 86400 // 24 hours
-        })
+        const token = sign(user.id, req.body.needRemember || true)
   
-        var authorities = []
+        const authorities = []
         user.getRoles().then(roles => {
-          for (let i = 0; i < roles.length; i++) {
-            authorities.push("ROLE_" + roles[i].name.toUpperCase())
-          }
+          roles.map(role => {
+              authorities.push("ROLE_" + role.name.toUpperCase())
+          })
+          // for (let i = 0; i < roles.length; i++) {
+          //   authorities.push("ROLE_" + roles[i].name.toUpperCase())
+          // }
           res.status(200).send({
             id: user.id,
             username: user.username,
