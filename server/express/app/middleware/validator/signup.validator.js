@@ -3,9 +3,19 @@ const db = require('../../models')
 const ROLES = db.ROLES
 const User = db.user
 
-const { body } = require('express-validator')
 const { responseHeader } = require('../sanitizer/responseHeader')
 const { responseFirstError } = require('../sanitizer/responseFirstError')
+
+const {
+  usernameExist,
+  usernameValidMin,
+  usernameValidMax,
+  emailExist,
+  validEmail,
+  passwordExist,
+  passworValidMin,
+  passworValidMax
+} = require('./inline')
 
 const checkDublicateUsername = (req, res, next) => {
     User.findOne({
@@ -53,16 +63,6 @@ const checkRolesExisted = (req, res, next) => {
     
     next()
   }
-
-const usernameExist = body('username', 'Username field not found').exists()
-const usernameValidMin = body('username', 'Username length should contain 6 or more symbols').isLength({ min: 6 })
-const usernameValidMax = body('username', 'Username length no more than 20 symbols').isLength({ max: 20 })
-const emailExist = body("email", "Email field not found").exists()
-const validEmail = body("email", "Not valid email").isEmail()
-const passwordExist = body("password", "Password field not found").exists()
-const passworValidMin = body('password', 'Password length should contain 6 or more symbols').isLength({ min: 6 })
-const passworValidMax = body('password', 'Password length no more than 40 symbols').isLength({ max: 40 })
-
 
 exports.signupValidator = [
   responseHeader,
