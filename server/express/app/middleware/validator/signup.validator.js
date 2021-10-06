@@ -33,7 +33,7 @@ const checkDublicateUsername = (req, res, next) => {
     })
 }
 
- const checkDublicateEmail = (req, res, next) => {
+const checkDublicateEmail = (req, res, next) => {
     User.findOne({
         where: {
           email: req.body.email
@@ -60,9 +60,8 @@ const checkRolesExisted = (req, res, next) => {
         }
       }
     }
-    
     next()
-  }
+}
 
 exports.signupValidator = [
   responseHeader,
