@@ -12,12 +12,12 @@ const {
   checkPassword
 } = require('./checks')
 
-const checkDublicateUsername = (req, res, next) => {
+checkDublicateUsername = (req, res, next) => {
     User.findOne({
         where: {
           username: req.body.username
         }
-      }).then(user => {
+    }).then(user => {
         if (user) {
           res.status(400).send({
             message: "Failed! Username is already in use!"
@@ -25,7 +25,9 @@ const checkDublicateUsername = (req, res, next) => {
           return
         }
         next()
-    })
+    }).catch(err => {
+      res.status(500).send({ message: err.message })
+  })
 }
 
 const checkDublicateEmail = (req, res, next) => {
@@ -33,38 +35,26 @@ const checkDublicateEmail = (req, res, next) => {
         where: {
           email: req.body.email
         }
-      }).then(user => {
+    }).then(user => {
         if (user) {
-          res.status(400).send({
+          return res.status(400).send({
             message: "Failed! Email is already in use!"
           })
-          return
+          
         }
         next()
+    }).catch(err => {
+      res.status(500).send({ message: err.message })
     })
 }
 
-const checkRolesExisted = (req, res, next) => {
-    if (req.body.roles) {
-      for (let i = 0; i < req.body.roles.length; i++) {
-        if (!ROLES.includes(req.body.roles[i])) {
-          res.status(400).send({
-            message: "Failed! Role does not exist = " + req.body.roles[i]
-          })
-          return
-        }
-      }
-    }
-    next()
-}
 
 exports.signupValidator = [
   responseHeader,
   checkUsername,
   checkEmail,
   checkPassword,
+  responseFirstError,
   checkDublicateUsername,
   checkDublicateEmail,
-  checkRolesExisted,
-  responseFirstError,
 ]

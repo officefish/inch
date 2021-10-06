@@ -20,10 +20,10 @@ require('./app/config/client.bundle.config')(app, __dirname)
 require('./app/config/spa.config')(app,__dirname)
 
 /** Initialize router instance */
-const route = express.Router()
 
 /** Auth API */
-require('./app/routes/auth.routes')(route)
+app.use('/api/auth'   , require('./app/routes/auth.routes'))
+//require('./app/routes/auth.routes')(route)
 
 /** User API */
 //require('./app/routes/user.routes')(app)
