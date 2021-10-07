@@ -42,9 +42,22 @@ describe('SPA', function() {
 
 describe('Auth API', () => {
 
-    describe('POST /api/auth/signup :no params', function() {
+    describe('POST /api/auth/signup ', function() {
         
-        it('Signup with no parameters should return a 422 status response', function(done) {
+        it('Signup should return json', function(done) {
+            api.post(`/api/auth/signup`)
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                    res.headers["content-type"].should.contains('application/json')
+                    done()
+                })    
+        })
+
+    })
+
+    describe('POST /api/auth/signup :no params', function() {
+
+        it('Signup :no params return a 422 status response', function(done) {
             api.post(`/api/auth/signup`)
                 .set('Accept', 'application/json')
                 .end((err, res) => {
@@ -56,16 +69,7 @@ describe('Auth API', () => {
                 })    
         })
 
-        it('Signup with no parameters should return json', function(done) {
-            api.post(`/api/auth/signup`)
-                .set('Accept', 'application/json')
-                .end((err, res) => {
-                    res.headers["content-type"].should.contains('application/json')
-                    done()
-                })    
-        })
-
-        it("Signup with no parameters should return object with .error property", function(done) {
+        it("Signup :no params return object with .error property", function(done) {
             api.post(`/api/auth/signup`)
                 .set('Accept', 'application/json')
                 .end((err, res) => {
@@ -75,7 +79,7 @@ describe('Auth API', () => {
                 })    
         })
 
-        it("Signup with no parameters error should be:'Username field not found' ", function(done) {
+        it("Signup :no params error is:'Username field not found' ", function(done) {
             api.post(`/api/auth/signup`)
                 .set('Accept', 'application/json')
                 .end((err, res) => {
@@ -85,8 +89,6 @@ describe('Auth API', () => {
                     done()
                 })    
         })
-
-
 
     })
 })
