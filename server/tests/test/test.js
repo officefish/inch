@@ -42,16 +42,51 @@ describe('SPA', function() {
 
 describe('Auth API', () => {
 
-    describe('POST /api/auth/signup', function() {
+    describe('POST /api/auth/signup :no params', function() {
         
-        it('Signup with no parameters should return a 200 response', function(done) {
+        it('Signup with no parameters should return a 422 status response', function(done) {
             api.post(`/api/auth/signup`)
                 .set('Accept', 'application/json')
                 .end((err, res) => {
-                    res.should.have.status(200)
+                    res.should.have.status(422)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                        .eql('Username field not found')
                     done()
                 })    
         })
+
+        it('Signup with no parameters should return json', function(done) {
+            api.post(`/api/auth/signup`)
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                    res.headers["content-type"].should.contains('application/json')
+                    done()
+                })    
+        })
+
+        it("Signup with no parameters should return object with .error property", function(done) {
+            api.post(`/api/auth/signup`)
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                    done()
+                })    
+        })
+
+        it("Signup with no parameters error should be:'Username field not found' ", function(done) {
+            api.post(`/api/auth/signup`)
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                        .eql('Username field not found')
+                    done()
+                })    
+        })
+
+
 
     })
 })
