@@ -105,10 +105,7 @@ const noValidParamsTests = api => (status, title, directory, params, errorMsg) =
             api.post(directory)
                 .set('Accept', 'application/json')
                 .send(params)
-                .end((err, res) => {
-                    res.should.have.status(status)
-                    done()
-                })    
+                .expect(status, done())    
         })
 
         it( method + ' return object with .error property', function(done) {
@@ -116,6 +113,7 @@ const noValidParamsTests = api => (status, title, directory, params, errorMsg) =
                 .set('Accept', 'application/json')
                 .send(params)
                 .end((err, res) => {
+                    res.should.have.status(status)
                     res.body.should.be.a('object')
                     res.body.should.have.property('error')
                     done()
@@ -127,6 +125,7 @@ const noValidParamsTests = api => (status, title, directory, params, errorMsg) =
                 .set('Accept', 'application/json')
                 .send(params)
                 .end((err, res) => {
+                    res.should.have.status(status)
                     res.body.should.be.a('object')
                     res.body.should.have.property('error')
                         .eql(errorMsg)
@@ -148,6 +147,32 @@ const shouldResponseJSONTest = api => (method, directory) => {
                 })    
         })
     }
+}
+
+const alreadyUseDataRequest = (api, timeout) => {
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.validRequest), 
+        noValidParamsTests(api)(
+            400,
+            methods.signup, 
+            directories.signup, 
+            mockParams.validRequest, 
+            errorMessages.username.alreadyUse
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.dublicatePassword), 
+        noValidParamsTests(api)(
+            400,
+            methods.signup, 
+            directories.signup, 
+            mockParams.dublicatePassword, 
+            errorMessages.email.alreadyUse
+    ))
+
+    return new Promise(function(resolve,reject){
+        setTimeout(function(){
+          resolve()
+        },timeout)
+    })
 }
 
 module.exports = api => {
@@ -228,63 +253,34 @@ module.exports = api => {
                 mockParams.toLongPassword, 
                 errorMessages.password.tooLong
         ))
-
-        User.create(mockParams.validRequest)
-        .then (user => {
-
-            describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.validRequest), 
-                noValidParamsTests(api)(
-                    400,
-                    methods.signup, 
-                    directories.signup, 
-                    mockParams.validRequest, 
-                    errorMessages.username.alreadyUse
-            ))
-
-            describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.dublicatePassword), 
-                noValidParamsTests(api)(
-                    400,
-                    methods.signup, 
-                    directories.signup, 
-                    mockParams.dublicatePassword, 
-                    errorMessages.email.alreadyUse
-            ))
-            
-            user.destroy()
+        
+        it('Signup with valid data should create new user', function(done) {
+             api.post(directories.signup)
+                .set('Accept', 'application/x-www-form-urlencoded')
+                .send(mockParams.validRequest)
+                .expect(200)
+                .end((err, res) => {
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message')
+                         .eql('User was registered successfully!')
+                    done()
+                })
         })
-
-        describe('POST ' + directories.signup + 'valid data', function() {
-            it('Signup with valid data should create new user', function(done) {
-                api.post(directories.signup)
-                    .set('Accept', 'application/x-www-form-urlencoded')
-                    .expect(200)
-                    .send(mockParams.validRequest)
-                    .end((err, res) => {
-                        res.body.should.be.a('object')
-                        res.body.should.have.property('message')
-                            .eql('User was registered successfully!')
-
-                        User.findOne({
-                            where: {
-                                username: mockParams.validRequest.username
-                            }
-                        }).then(user => {
-                            if (user) {
-                                user.destroy()
-                                done()
-                            } else {
-                                done('User not found in db')
-                            } 
-                        }).catch(err => {
-                            done('No correct User object usage')
-                            //res.status(500).send({ message: err.message })
-                        })
-                        
-                    })    
+        
+        const timeout = 400
+        alreadyUseDataRequest(api, timeout)
+            .then(() => {
+                User.findOne({
+                    where: {
+                        username: mockParams.validRequest.username
+                    }
+                }).then(user => {
+                    console.log ('destroy test user after ' + timeout + ' ms')
+                    if (user) user.destroy()
+                    
+                }).catch(err => {
+                    
+                })
             })
         })
-
-       
-   
-    })
 }
