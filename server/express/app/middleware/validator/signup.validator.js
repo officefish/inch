@@ -12,21 +12,22 @@ const {
   checkPassword
 } = require('./checks')
 
-checkDublicateUsername = (req, res, next) => {
+const checkDublicateUsername = (req, res, next) => {
     User.findOne({
         where: {
           username: req.body.username
         }
     }).then(user => {
         if (user) {
-          res.status(400).send({
-            message: "Failed! Username is already in use!"
+          res.status(400).json({
+             error: "Username is already in use"
           })
           return
         }
         next()
     }).catch(err => {
-      res.status(500).send({ message: err.message })
+      next()
+      //res.status(500).send({ message: err.message })
   })
 }
 
@@ -37,17 +38,17 @@ const checkDublicateEmail = (req, res, next) => {
         }
     }).then(user => {
         if (user) {
-          return res.status(400).send({
-            message: "Failed! Email is already in use!"
+          res.status(400).json({
+            error: "Email is already in use"
           })
-          
+          return
         }
         next()
     }).catch(err => {
-      res.status(500).send({ message: err.message })
+      next()
+      //res.status(500).send({ message: err.message })
     })
 }
-
 
 exports.signupValidator = [
   responseHeader,
