@@ -1,31 +1,14 @@
-const express = require('express')
+//const express = require('express')
 const chai = require('chai')
 const request = require('supertest')
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
-const app = express()
-
-
-// describe('GET SPA', () => {
-
-//     it('core path should be valid response status', () => {
-//         // code for testing the api
-//         request(app)
-//         .get('/')
-//         .expect(201)
-//         .then((res) => {
-//             expect(res.headers.location).to.be.eql('/')
-//             // more validations can be added here as required
-//         })
-//     })
-// })
-
 let should = require('chai').should(),
     expect = require('chai').expect,
-    supertest = require('supertest'),
-    api = supertest('http://localhost:3001'),
     faker = require('faker')
+
+const api = require("../app")(3001)
 
 const methods = {
     signup:'Signup'
@@ -58,11 +41,33 @@ const mockValues = {
 
 const mockParams = {
     noExistUsername:{},
-    tooShortUsername:{username:mockValues.tooShort},
-    tooLongUsername:{username:mockValues.tooLong},
-    noExistEmail:{username:mockValues.validUsername},
-    notValidEmail:{username:mockValues.validUsername, email:mockValues.notValidEmail},
-    noExistPassword:{username:mockValues.validUsername, email:mockValues.validEmail}
+    tooShortUsername: { 
+        username:mockValues.tooShort
+    },
+    tooLongUsername: { 
+        username:mockValues.tooLong
+    },
+    noExistEmail: {
+        username:mockValues.validUsername
+    },
+    notValidEmail: {
+        username:mockValues.validUsername, 
+        email:mockValues.notValidEmail
+    },
+    noExistPassword: {
+        username:mockValues.validUsername, 
+        email:mockValues.validEmail
+    },
+    toShortPassword: {
+        username:mockValues.validUsername, 
+        email:mockValues.validEmail, 
+        password:mockValues.tooShort
+    },
+    toLongPassword: {
+        username:mockValues.validUsername, 
+        email:mockValues.validEmail, 
+        password:mockValues.tooLong + mockValues.tooLong
+    }
 }
 
 const directories = {
@@ -137,6 +142,9 @@ const shouldResponseJSONTest = (method, directory) => {
 
 describe('Auth API', () => {
 
+    // send correct request
+    // check if new object saved in bd
+
     describe('POST ' + directories.signup, 
         shouldResponseJSONTest(methods.signup, directories.signup)        
     )
@@ -179,6 +187,30 @@ describe('Auth API', () => {
             directories.signup, 
             mockParams.notValidEmail, 
             errorMessages.email.notValid
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.noExistPassword), 
+        noValidParamsTests(
+            methods.signup, 
+            directories.signup, 
+            mockParams.noExistPassword, 
+            errorMessages.password.noExist
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.toShortPassword), 
+        noValidParamsTests(
+            methods.signup, 
+            directories.signup, 
+            mockParams.toShortPassword, 
+            errorMessages.password.tooShort
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.toLongPassword), 
+        noValidParamsTests(
+            methods.signup, 
+            directories.signup, 
+            mockParams.toLongPassword, 
+            errorMessages.password.tooLong
     ))
 
 
