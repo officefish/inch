@@ -11,7 +11,8 @@ const db = require('../../app/models')
 const User = db.user
 
 const methods = {
-    signup:'Signup'
+    signup:'Signup',
+    signin:'Signin'
 }
 
 const errorMessages = {
@@ -51,49 +52,56 @@ const mockValues = {
 }
 
 const mockParams = {
-    noExistUsername:{},
-    tooShortUsername: { 
-        username:mockValues.tooShort
+    signin: {
+        noExistUsername:{},
     },
-    tooLongUsername: { 
-        username:mockValues.tooLong
+    signup: {
+        noExistUsername:{},
+        tooShortUsername: { 
+            username:mockValues.tooShort
+        },
+        tooLongUsername: { 
+            username:mockValues.tooLong
+        },
+        noExistEmail: {
+            username:mockValues.validUsername
+        },
+        notValidEmail: {
+            username:mockValues.validUsername, 
+            email:mockValues.notValidEmail
+        },
+        noExistPassword: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail
+        },
+        toShortPassword: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail, 
+            password:mockValues.tooShort
+        },
+        toLongPassword: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail, 
+            password:mockValues.tooLong + mockValues.tooLong
+        },
+        validRequest: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail, 
+            password:mockValues.validPassword
+        },
+        dublicatePassword: {
+            username:mockValues.validUsername.split("").reverse().join(""), 
+            email:mockValues.validEmail, 
+            password:mockValues.validPassword
+        }
     },
-    noExistEmail: {
-        username:mockValues.validUsername
-    },
-    notValidEmail: {
-        username:mockValues.validUsername, 
-        email:mockValues.notValidEmail
-    },
-    noExistPassword: {
-        username:mockValues.validUsername, 
-        email:mockValues.validEmail
-    },
-    toShortPassword: {
-        username:mockValues.validUsername, 
-        email:mockValues.validEmail, 
-        password:mockValues.tooShort
-    },
-    toLongPassword: {
-        username:mockValues.validUsername, 
-        email:mockValues.validEmail, 
-        password:mockValues.tooLong + mockValues.tooLong
-    },
-    validRequest: {
-        username:mockValues.validUsername, 
-        email:mockValues.validEmail, 
-        password:mockValues.validPassword
-    },
-    dublicatePassword: {
-        username:mockValues.validUsername.split("").reverse().join(""), 
-        email:mockValues.validEmail, 
-        password:mockValues.validPassword
-    }
+    
 
 }
 
 const directories = {
-    signup:'/api/auth/signup'
+    signup:'/api/auth/signup',
+    signin:'/api/auth/signin'
 }  
 
 const noValidParamsTests = api => (status, title, directory, params, errorMsg) => {
@@ -149,138 +157,187 @@ const shouldResponseJSONTest = api => (method, directory) => {
     }
 }
 
-const alreadyUseDataRequest = (api, timeout) => {
-    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.validRequest), 
+const inspectSignupAlreadyUseDataInput = api => {
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.validRequest), 
         noValidParamsTests(api)(
             400,
             methods.signup, 
             directories.signup, 
-            mockParams.validRequest, 
+            mockParams.signup.validRequest, 
             errorMessages.username.alreadyUse
     ))
 
-    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.dublicatePassword), 
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.dublicatePassword), 
         noValidParamsTests(api)(
             400,
             methods.signup, 
             directories.signup, 
-            mockParams.dublicatePassword, 
+            mockParams.signup.dublicatePassword, 
             errorMessages.email.alreadyUse
     ))
+}
 
+const wait = timeout => {
     return new Promise(function(resolve,reject){
         setTimeout(function(){
           resolve()
         },timeout)
     })
+} 
+
+const removeTestUserfromDB = () => {
+    User.findOne({
+        where: {
+            username: mockParams.signup.validRequest.username
+        }
+    }).then(user => {
+        console.log ('destroy test user after ' + timeout + ' ms')
+        if (user) user.destroy()
+        
+    }).catch(err => {
+        
+    })
 }
 
+const inspectSignupResponseIsJSON = api => {
+    describe('POST ' + directories.signup, 
+        shouldResponseJSONTest(api)(methods.signup, directories.signup)        
+    )
+}
+
+const inspectSignupNoInputs = api => {
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.noExistUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.noExistUsername, 
+            errorMessages.username.noExist
+    ))
+}
+
+const inspectSigninResponseIsJSON = api => {
+    describe('POST ' + directories.signin, 
+        shouldResponseJSONTest(api)(methods.signin, directories.signin)        
+    )
+}
+
+const inspectSigninNoInputs = api => {
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.noExistUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.noExistUsername, 
+            errorMessages.username.noExist
+    ))
+}
+
+const inspectSignupUsernameInputs = api => {
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.tooShortUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.tooShortUsername, 
+            errorMessages.username.tooShort
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.tooLongUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.tooLongUsername, 
+            errorMessages.username.tooLong
+    ))
+} 
+
+const inspectSignupEmailInputs = api => {
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.noExistEmail), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.noExistEmail, 
+            errorMessages.email.noExist
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.notValidEmail), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.notValidEmail, 
+            errorMessages.email.notValid
+    ))
+}
+
+const inspectSignupPasswordInputs = api => {
+       
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.noExistPassword), 
+    noValidParamsTests(api)(
+        422,
+        methods.signup, 
+        directories.signup, 
+        mockParams.signup.noExistPassword, 
+        errorMessages.password.noExist
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.toShortPassword), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.toShortPassword, 
+            errorMessages.password.tooShort
+    ))
+
+    describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.toLongPassword), 
+        noValidParamsTests(api)(
+            422,
+            methods.signup, 
+            directories.signup, 
+            mockParams.signup.toLongPassword, 
+            errorMessages.password.tooLong
+    ))
+}
+
+const inspectSignupCorrectInput = api => {
+    it('Signup with valid data should create new user', function(done) {
+        api.post(directories.signup)
+           .set('Accept', 'application/x-www-form-urlencoded')
+           .send(mockParams.signup.validRequest)
+           .expect(200)
+           .end((err, res) => {
+               res.body.should.be.a('object')
+               res.body.should.have.property('message')
+                    .eql('User was registered successfully!')
+               done()
+           })
+   })
+} 
+
 module.exports = api => {
+    
     describe('Auth API', () => {
 
-        describe('POST ' + directories.signup, 
-            shouldResponseJSONTest(api)(methods.signup, directories.signup)        
-        )
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.noExistUsername), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.noExistUsername, 
-                errorMessages.username.noExist
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.tooShortUsername), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.tooShortUsername, 
-                errorMessages.username.tooShort
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.tooLongUsername), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.tooLongUsername, 
-                errorMessages.username.tooLong
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.noExistEmail), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.noExistEmail, 
-                errorMessages.email.noExist
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.notValidEmail), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.notValidEmail, 
-                errorMessages.email.notValid
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.noExistPassword), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.noExistPassword, 
-                errorMessages.password.noExist
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.toShortPassword), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.toShortPassword, 
-                errorMessages.password.tooShort
-        ))
-    
-        describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.toLongPassword), 
-            noValidParamsTests(api)(
-                422,
-                methods.signup, 
-                directories.signup, 
-                mockParams.toLongPassword, 
-                errorMessages.password.tooLong
-        ))
-        
-        it('Signup with valid data should create new user', function(done) {
-             api.post(directories.signup)
-                .set('Accept', 'application/x-www-form-urlencoded')
-                .send(mockParams.validRequest)
-                .expect(200)
-                .end((err, res) => {
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message')
-                         .eql('User was registered successfully!')
-                    done()
-                })
-        })
-        
-        const timeout = 400
-        alreadyUseDataRequest(api, timeout)
-            .then(() => {
-                User.findOne({
-                    where: {
-                        username: mockParams.validRequest.username
-                    }
-                }).then(user => {
-                    console.log ('destroy test user after ' + timeout + ' ms')
-                    if (user) user.destroy()
-                    
-                }).catch(err => {
-                    
-                })
-            })
-        })
+        inspectSignupResponseIsJSON(api)
+        inspectSignupNoInputs(api)
+        inspectSignupUsernameInputs(api)
+        inspectSignupEmailInputs(api)
+        inspectSignupPasswordInputs(api)
+        inspectSignupCorrectInput(api)    
+        inspectSignupAlreadyUseDataInput(api)
+
+        inspectSigninResponseIsJSON(api)
+        inspectSigninNoInputs(api)
+        //inspectSigninUsernameInputs(api)
+        //inspectSigninPasswordInputs(api)
+    })
+
+    wait(400).then(() => {
+        removeTestUserfromDB()
+    })
+       
 }
