@@ -31,7 +31,8 @@ const errorMessages = {
         noExist:'Password field not found',
         tooShort:'Password length should contain 6 or more symbols',
         tooLong:'Password length should be no more than 40 symbols'
-    }
+    },
+    userNoExist:"User Not found"
 }
 
 const generateRandomKey = prefix => {
@@ -54,6 +55,43 @@ const mockValues = {
 const mockParams = {
     signin: {
         noExistUsername:{},
+        tooShortUsername: { 
+            username:mockValues.tooShort
+        },
+        tooLongUsername: { 
+            username:mockValues.tooLong
+        },
+        noExistPassword: {
+            username:mockValues.validUsername, 
+        },
+        toShortPassword: {
+            username:mockValues.validUsername, 
+            password:mockValues.tooShort
+        },
+        toLongPassword: {
+            username:mockValues.validUsername,  
+            password:mockValues.tooLong + mockValues.tooLong
+        },
+        validRequestWithUsername: {
+            username:mockValues.validUsername, 
+            password:mockValues.validPassword
+        },
+        validResponseWithUsername: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail
+        },
+        validRequestWithEmail: {
+            username:mockValues.validEmail, 
+            password:mockValues.validPassword
+        },
+        validResponseWithEmail: {
+            username:mockValues.validUsername, 
+            email:mockValues.validEmail
+        },
+        noExistUser: {
+            username:mockValues.validUsername.split("").reverse().join(""), 
+            password:mockValues.validPassword
+        }
     },
     signup: {
         noExistUsername:{},
@@ -253,6 +291,26 @@ const inspectSignupUsernameInputs = api => {
     ))
 } 
 
+const inspectSigninUsernameInputs = api => {
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.tooShortUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.tooShortUsername, 
+            errorMessages.username.tooShort
+    ))
+
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.tooLongUsername), 
+        noValidParamsTests(api)(
+            422,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.tooLongUsername, 
+            errorMessages.username.tooLong
+    ))
+}
+
 const inspectSignupEmailInputs = api => {
     describe("POST " + directories.signup + ":" + JSON.stringify(mockParams.signup.noExistEmail), 
         noValidParamsTests(api)(
@@ -303,6 +361,35 @@ const inspectSignupPasswordInputs = api => {
     ))
 }
 
+const inspectSigninPasswordInputs = api => {
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.noExistPassword), 
+    noValidParamsTests(api)(
+        422,
+        methods.signin, 
+        directories.signin, 
+        mockParams.signin.noExistPassword, 
+        errorMessages.password.noExist
+    ))
+
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.toShortPassword), 
+        noValidParamsTests(api)(
+            422,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.toShortPassword, 
+            errorMessages.password.tooShort
+    ))
+
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.toLongPassword), 
+        noValidParamsTests(api)(
+            422,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.toLongPassword, 
+            errorMessages.password.tooLong
+    ))
+}
+
 const inspectSignupCorrectInput = api => {
     it('Signup with valid data should create new user', function(done) {
         api.post(directories.signup)
@@ -318,6 +405,51 @@ const inspectSignupCorrectInput = api => {
    })
 } 
 
+const inspectSigninCorrectUsernameInput = api => {
+    it('Signin with valid data should correct auth with associated user', function(done) {
+        api.post(directories.signin)
+           .set('Accept', 'application/x-www-form-urlencoded')
+           .send(mockParams.signin.validRequestWithUsername)
+           .expect(200)
+           .end((err, res) => {
+               res.body.should.be.a('object')
+               res.body.should.have.property('username')
+                .eql(mockParams.signin.validResponseWithUsername.username)
+               res.body.should.have.property('email')
+                .eql(mockParams.signin.validResponseWithUsername.email) 
+               done()
+           })
+   })
+}
+
+const inspectSigninCorrectEmailInput = api => {
+    it('Signin with valid data should correct auth with associated user', function(done) {
+        api.post(directories.signin)
+           .set('Accept', 'application/x-www-form-urlencoded')
+           .send(mockParams.signin.validRequestWithEmail)
+           .expect(200)
+           .end((err, res) => {
+               res.body.should.be.a('object')
+               res.body.should.have.property('username')
+                .eql(mockParams.signin.validResponseWithEmail.username)
+               res.body.should.have.property('email')
+                .eql(mockParams.signin.validResponseWithEmail.email) 
+               done()
+           })
+   })
+}
+
+const inspectSigninNoExistUser = api => {
+    describe("POST " + directories.signin + ":" + JSON.stringify(mockParams.signin.noExistUser), 
+        noValidParamsTests(api)(
+            404,
+            methods.signin, 
+            directories.signin, 
+            mockParams.signin.noExistUser, 
+            errorMessages.userNoExist
+    ))
+}
+
 module.exports = api => {
     
     describe('Auth API', () => {
@@ -327,13 +459,20 @@ module.exports = api => {
         inspectSignupUsernameInputs(api)
         inspectSignupEmailInputs(api)
         inspectSignupPasswordInputs(api)
+        
         inspectSignupCorrectInput(api)    
+        
         inspectSignupAlreadyUseDataInput(api)
 
         inspectSigninResponseIsJSON(api)
         inspectSigninNoInputs(api)
-        //inspectSigninUsernameInputs(api)
-        //inspectSigninPasswordInputs(api)
+        inspectSigninUsernameInputs(api)
+        inspectSigninPasswordInputs(api)
+
+        inspectSigninCorrectUsernameInput(api)
+        inspectSigninCorrectEmailInput(api)   
+
+        inspectSigninNoExistUser(api)
     })
 
     wait(400).then(() => {

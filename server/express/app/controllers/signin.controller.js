@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 const config = require('../config/auth.config')
-const { validator } = require('express-validator');
+const {isEmail} = require('validator')
 
 const db = require('../models')
 const User = db.user
@@ -18,15 +18,19 @@ const sign = (userId, needRemember) => {
 }
 
 exports.signin = (req, res) => {
-   
+    
+    //console.log (req)
+    console.log(req.body.username)
+
     User.findOne({
-          where: validator.isEmail(req.body.nickname)
-          ? { username: req.body.username }
-          : { email: req.body.username}
+          where: isEmail(req.body.username)
+          ? { email: req.body.username }
+          : { username: req.body.username }
+           
       })
       .then(user => {
         if (!user) {
-          return res.status(404).send({ message: "User Not found." });
+          return res.status(404).send({ error: "User Not found" });
         }
   
         const passwordIsValid = bcrypt.compareSync(
