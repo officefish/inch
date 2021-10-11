@@ -1,43 +1,30 @@
-import { AuthAction } from "../../actions/aurh";
-
-enum ERoles {
-    User,
-    Moderator,
-    Administrator
-}
-
-interface IUser {
-    id: number,
-    username: string,
-    email: string,
-    roles: ERoles,
-    accessToken: string
-}
+import { AuthAction } from "../../actions/auth";
+import { IUser, getUserFromLocalStorage } from '../../models/user'
 
 interface IAuthState {
     isLoggedIn: boolean,
     user: IUser | null
 }
 
-interface registerType {
-    type: typeof AuthAction.REGISTER,
-    payload : string
+interface IRegisterSuccess {
+    type: typeof AuthAction.REGISTER_SUCCESS,
 }
 
-interface loginType {
-    type: typeof AuthAction.LOGIN,
-    payload: string
+interface IRegisterFail {
+    type: typeof AuthAction.REGISTER_FAIL,
 }
 
-type actionType = loginType | registerType;
-
-const getUserFromLocalStorage = () :IUser => {
-    let userData = localStorage.getItem('user')
-    const user = userData
-        ? JSON.parse(userData)
-        : null
-    return user
+interface ILoginSuccess {
+    type: typeof AuthAction.LOGIN_SUCCESS,
+    payload: {user: IUser | null}
 }
+
+interface ILoginFail {
+    type: typeof AuthAction.LOGIN_FAIL,
+    payload: {user: IUser | null}
+}
+
+type actionType = IRegisterSuccess | IRegisterFail | ILoginSuccess | ILoginFail
 
 const user = getUserFromLocalStorage()
 const initialState = user
@@ -45,8 +32,31 @@ const initialState = user
     : {isLoggedIn: false, user: null}
 
 const auth = (state = initialState, action:actionType) : IAuthState => {
-    switch(action) {
+    switch(action.type) {
+        case AuthAction.REGISTER_SUCCESS:
+            return {
+                ...state,
+                isLoggedIn: false
+            }
+        case AuthAction.REGISTER_FAIL:
+            return {
+                ...state,
+                isLoggedIn: false
+            }
+        case AuthAction.LOGIN_SUCCESS:
+            return {
+                ...state,
+                isLoggedIn: true,
+                user: action.payload.user
+            }
+        case AuthAction.LOGIN_FAIL:
+            return {
+                ...state,
+                isLoggedIn: false,
+                user: action.payload.user
+            }
         default:
             return state
     }   
 }
+export default auth

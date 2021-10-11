@@ -8,4 +8,4 @@ const App :React.FC<IApplication> = () => {
   </header>)
 }
 
-export default App;
+export default App
