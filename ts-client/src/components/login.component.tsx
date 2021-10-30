@@ -10,6 +10,8 @@ import { loginValidation } from '../validators'
 import { connect } from "react-redux"
 import { login } from "../actions/auth"
 
+import LoginForm from '../ui/form/login.form'
+
 export interface ILoginComponent {
     dispatch:Function,
     history:any,
@@ -92,5 +94,20 @@ const Login :React.FC<ILoginComponent> = props => {
             />
 
 }
+
+const mapStateToProps = (state:any) => {
+    const { isLoggedIn } = state.auth
+    const { message } = state.message
+    const { host, port } = state.connect
+    return {
+        isLoggedIn,
+        message,
+        host,
+        port
+    }
+}
+
+export default connect(mapStateToProps)(Login)
+
 
 
